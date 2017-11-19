@@ -1,29 +1,33 @@
-function timeElapsed = Compete(preyNN, predatorNN, preySimParams, predatorSimParams, envSimParams)
+function timeElapsed = Compete(preyNN, nPreyAgents, nPreyNeighbors, maxPreyTurningAngle, ...
+                               nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs, ...
+                               predatorNN, nPredatorAgents, nPredatorNeighbors, maxPredatorTurningAngle, predatorSpeed, ...
+                               nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs, ...
+                               deltaT, maxTime, fieldSize, captureDistance)
 % runs one full simulation based on prey and predator chromosomes and
 % simulation parameters, returning the time elapsed before one of the stop
 % conditions was met
 
-[preyT1, preyW12, preyT2, preyW23] = DecodeChromosome(preyNN, preySimParams);
-[predatorT1, predatorW12, predatorT2, predatorW23] = DecodeChromosome(predatorNN, predatorSimParams);
+[preyT1, preyW12, preyT2, preyW23] = DecodeChromosome(preyNN, nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs);
+[predatorT1, predatorW12, predatorT2, predatorW23] = DecodeChromosome(predatorNN, nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs);
 
-[preyPos, preyVel] = RandomSpawn(preySimParams.nAgents, envSimParams.fieldSize, [3/4 1/2]);
-[predatorPos, predatorVel] = RandomSpawn(predatorSimParams.nAgents, envSimParams.fieldSize, [1/4 1/2]);
+[preyPos, preyVel] = RandomSpawn(nPreyAgents, fieldSize, [3/4 1/2]);
+[predatorPos, predatorVel] = RandomSpawn(nPredatorAgents, fieldSize, [1/4 1/2]);
 
 timeElapsed = 0;
 captured = false;
-while (timeElapsed <= envSimParams.maxTime) && ~captured
-    preyPreyParameters = GetFriendParameters(preyPos, preyVel, preySimParams.nAgents, preySimParams.nNeighbors);
-    predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, predatorSimParams.nAgents, predatorSimParams.nAgents-1);
-    [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, predatorSimParams.nNeighbors);
+while (timeElapsed <= maxTime) && ~captured
+    preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyAgents, nPreyNeighbors);
+    predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents, nPredatorAgents-1);
+    [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPredatorNeighbors);
     
     preyInputVectors = [preyPreyParameters preyPredatorParameters];
-    [preyPos, preyVel] = UpdateAgentState(preyPos, preyVel, preyInputVectors, preyT1, preyW12, preyT2, preyW23, preySimParams, envSimParams);
+    [preyPos, preyVel] = UpdateAgentState(preyPos, preyVel, preyInputVectors, preyT1, preyW12, preyT2, preyW23, maxPreyTurningAngle, 1, deltaT, fieldSize);
     preyPolarization, preyAngularMomentum = GetFlockStats(preyPos, preyVel);
     
     predatorInputVectors = [predatorPreyParameters predatorPredatorParameters];
-    [predatorPos, predatorVel] = UpdateAgentState(predatorPos, predatorVel, predatorInputVectors, predatorT1, predatorW12, predatorT2, predatorW23, predatorSimParams, envSimParams);
+    [predatorPos, predatorVel] = UpdateAgentState(predatorPos, predatorVel, predatorInputVectors, predatorT1, predatorW12, predatorT2, predatorW23, maxPredatorTurningAngle, predatorSpeed, deltaT, fieldSize);
     predatorPolarization, predatorAngularMomentum = GetFlockStats(predatorPos, predatorVel);
     
-    captured = CheckCaptured(preyPos, predatorPos, envSimParams.captureDistance);
-    timeElapsed = timeElapsed + envSimParams.deltaT;
+    captured = CheckCaptured(preyPos, predatorPos, captureDistance);
+    timeElapsed = timeElapsed + deltaT;
 end
