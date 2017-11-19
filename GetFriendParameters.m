@@ -12,12 +12,14 @@ neighborSortIndex = neighborSortIndex(:,2:2+nNeighbors-1);
 
 parameters = zeros(nAgents, 3*nNeighbors);
 for i = 1:nAgents
+    myParameters = zeros(3, nNeighbors);
     for j = 1:nNeighbors
         thisNeighborIndex = neighborSortIndex(i,j);
         displacement = pos(thisNeighborIndex,:) - pos(i,:);
         rho = neighborDists(i,j);
         theta = mod(atan2(displacement(2), displacement(1)) - vel(i), twopi);
         phi = mod(vel(thisNeighborIndex) - vel(i), twopi);
-        parameters(i, 3*j:3*j+2) = [rho theta phi];
+        myParameters(:, j) = [rho ; theta ; phi];
     end
+    parameters(i,:) = reshape(myParameters, 1, []);
 end

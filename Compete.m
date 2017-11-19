@@ -16,17 +16,21 @@ function timeElapsed = Compete(preyNN, nPreyAgents, nPreyNeighbors, maxPreyTurni
 timeElapsed = 0;
 captured = false;
 while (timeElapsed <= maxTime) && ~captured
+    [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPreyAgents, nPredatorAgents, nPredatorNeighbors);
     preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyAgents, nPreyNeighbors);
-    predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents, nPredatorAgents-1);
-    [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPredatorNeighbors);
-    
     preyInputVectors = [preyPreyParameters preyPredatorParameters];
-    [preyPos, preyVel] = UpdateAgentState(preyPos, preyVel, preyInputVectors, preyT1, preyW12, preyT2, preyW23, maxPreyTurningAngle, 1, deltaT, fieldSize);
-    preyPolarization, preyAngularMomentum = GetFlockStats(preyPos, preyVel);
+    if nPredatorAgents > 1
+        predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents, nPredatorAgents-1);
+        predatorInputVectors = [predatorPreyParameters predatorPredatorParameters];
+    else
+        predatorInputVectors = predatorPreyParameters;
+    end
     
-    predatorInputVectors = [predatorPreyParameters predatorPredatorParameters];
+    [preyPos, preyVel] = UpdateAgentState(preyPos, preyVel, preyInputVectors, preyT1, preyW12, preyT2, preyW23, maxPreyTurningAngle, 1, deltaT, fieldSize);
+    [preyPolarization, preyAngularMomentum] = GetFlockStats(preyPos, preyVel, nPreyAgents)
+    
     [predatorPos, predatorVel] = UpdateAgentState(predatorPos, predatorVel, predatorInputVectors, predatorT1, predatorW12, predatorT2, predatorW23, maxPredatorTurningAngle, predatorSpeed, deltaT, fieldSize);
-    predatorPolarization, predatorAngularMomentum = GetFlockStats(predatorPos, predatorVel);
+    [predatorPolarization, predatorAngularMomentum] = GetFlockStats(predatorPos, predatorVel, nPredatorAgents)
     
     captured = CheckCaptured(preyPos, predatorPos, captureDistance);
     timeElapsed = timeElapsed + deltaT;

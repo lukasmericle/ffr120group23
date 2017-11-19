@@ -27,7 +27,7 @@ nPredatorNNOutputs = 1;
 nPredatorNNHidden = floor(sqrt(nPredatorNNInputs * nPredatorNNOutputs));
 
 % genetic algorithm parameters
-populationSize = 25;
+populationSize = 5;
 selectionParameter = (sqrt(5)-1)/2;
 mutationFrequency = 1; % per chromosome
 mutationDistance = 5;
