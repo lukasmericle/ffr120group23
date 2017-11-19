@@ -1,4 +1,6 @@
 function population = InitializePopulation(GAParams, nnParams)
+% create a random population
+
 nInputs = nnParams.nInputs;
 nHidden = nnParams.nHidden;
 nOutputs = nnParams.nOutputs;

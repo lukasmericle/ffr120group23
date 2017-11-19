@@ -1,22 +1,14 @@
-function parameters = GetFriendParameters(pos, vel, nNeighbors)
+function parameters = GetFriendParameters(pos, vel, nAgents, nNeighbors)
 % get parameters for agents based on the information provided from the friendly
 % agents
 
 twopi = 2*pi;
-nAgents = length(vel);
-distMatrix = zeros(nAgents);
 
-for i = 1:nAgents-1
-    for j = i+1:nAgents
-        displacement = norm(pos(i,:) - pos(j,:));
-        distMatrix(i,j) = displacement;
-        distMatrix(j,i) = displacement;
-    end
-end
+distMatrix = squareform(pdist(pos));
 
 [neighborDists, neighborSortIndex] = sort(distMatrix, 2);
-neighborDists = neighborDists(:,2:2+nNeighbors); % exclude first one, as it is always self
-neighborSortIndex = neighborSortIndex(:,2:2+nNeighbors);
+neighborDists = neighborDists(:,2:2+nNeighbors-1); % exclude first one, as it is always self
+neighborSortIndex = neighborSortIndex(:,2:2+nNeighbors-1);
 
 parameters = zeros(nAgents, 3*nNeighbors);
 for i = 1:nAgents

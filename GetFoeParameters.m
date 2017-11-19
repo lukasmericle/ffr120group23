@@ -5,16 +5,8 @@ function [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(pre
 twopi = 2*pi;
 nPrey = length(preyVel);
 nPredators = length(predatorVel);
-distMatrix = zeros(nPrey, nPredators);
 
-for i = 1:nPrey
-    for j = 1:nPredators
-        pos1 = preyPos(i,:);
-        pos2 = predatorPos(j,:);
-        displacement = norm(pos1 - pos2);
-        distMatrix(i,j) = displacement;
-    end
-end
+distMatrix = pdist2(preyPos, predatorPos);
 
 [preyPredatorNeighbors, preyPredatorSortIndex] = sort(distMatrix, 2);
 preyPredatorParameters = zeros(nPrey, 3*nPredators);
