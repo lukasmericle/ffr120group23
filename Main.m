@@ -14,7 +14,7 @@ predatorSpeed = 1.5;
 deltaT = 0.5;
 maxTime = 100;
 fieldSize = 100;
-captureDistance = 5;
+captureDistance = 1;
 nCompetitions = 3;
 
 % neural network parameters

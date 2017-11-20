@@ -8,9 +8,9 @@ predatorPreyParameters = zeros(nPredatorAgents, 3*nPredatorNeighbors);
 
 distMatrix = pdist2(preyPos, predatorPos);
 
-captured = any(distMatrix <= captureDistance);
+captured = any(distMatrix(:) <= captureDistance);
 if captured
-    return
+    return;
 end
 
 [preyPredatorNeighbors, preyPredatorSortIndex] = sort(distMatrix, 2);
