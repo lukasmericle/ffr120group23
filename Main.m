@@ -2,20 +2,20 @@ clear all;
 clc;
 
 % simulation parameters
-nPreyAgents = 100;
+nPreyAgents = 333;
 nPreyNeighbors = 6; % https://doi.org/10.1016/j.anbehav.2008.02.004
 maxPreyTurningAngle = pi/5;
 
-nPredatorAgents = 2;
+nPredatorAgents = 3;
 nPredatorNeighbors = 12;
 maxPredatorTurningAngle = pi/10;
 predatorSpeed = 1.5;
 
-deltaT = 0.5;
-maxTime = 1000;
+deltaT = 0.3;
+maxTime = 100;
 fieldSize = 100;
-captureDistance = 1;
-nCompetitions = 5;
+captureDistance = 3;
+nCompetitions = 3;
 
 % neural network parameters
 nPreyNNInputs = 3*(nPreyNeighbors + nPredatorAgents);
@@ -30,7 +30,7 @@ nPredatorNNHidden = floor(sqrt(nPredatorNNInputs * nPredatorNNOutputs));
 populationSize = 5;
 selectionParameter = (sqrt(5)-1)/2;
 mutationFrequency = 1; % per chromosome
-mutationDistance = 5;
+mutationDistance = 1;
 
 %------------------------------------------------------------------------------
 

@@ -10,13 +10,26 @@ function timeElapsed = Compete(preyNN, nPreyAgents, nPreyNeighbors, maxPreyTurni
 [preyT1, preyW12, preyT2, preyW23] = DecodeChromosome(preyNN, nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs);
 [predatorT1, predatorW12, predatorT2, predatorW23] = DecodeChromosome(predatorNN, nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs);
 
-[preyPos, preyVel] = RandomSpawn(nPreyAgents, fieldSize, [3/4 1/2]);
+[preyPos, preyVel] = RandomSpawn(nPreyAgents, fieldSize, [(3/4) (1/2)]);
 [predatorPos, predatorVel] = RandomSpawn(nPredatorAgents, fieldSize, [1/4 1/2]);
+
+clf;
+figure(1);
+ax = gca;
+
+preyObj = plot(preyPos(:,1), preyPos(:,2),'g.');
+hold on;
+predatorObj = plot(predatorPos(:,1), predatorPos(:,2),'r*');
+title('t=0');
+drawnow;
 
 timeElapsed = 0;
 captured = false;
-while (timeElapsed <= maxTime) && ~captured
-    [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPreyAgents, nPredatorAgents, nPredatorNeighbors);
+while (timeElapsed < maxTime)
+    [preyPredatorParameters, predatorPreyParameters, captured] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPreyAgents, nPredatorAgents, nPredatorNeighbors, captureDistance);
+    if captured
+        break
+    end
     preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyAgents, nPreyNeighbors);
     preyInputVectors = [preyPreyParameters preyPredatorParameters];
     if nPredatorAgents > 1
@@ -32,6 +45,8 @@ while (timeElapsed <= maxTime) && ~captured
     [predatorPos, predatorVel] = UpdateAgentState(predatorPos, predatorVel, predatorInputVectors, predatorT1, predatorW12, predatorT2, predatorW23, maxPredatorTurningAngle, predatorSpeed, deltaT, fieldSize);
     [predatorPolarization, predatorAngularMomentum] = GetFlockStats(predatorPos, predatorVel, nPredatorAgents);
     
-    captured = CheckCaptured(preyPos, predatorPos, captureDistance);
     timeElapsed = timeElapsed + deltaT;
+    myTitle = ['t=', num2str(timeElapsed)];
+    PlotAgentStates(preyObj, preyPos, preyVel, predatorObj, predatorPos, predatorVel, myTitle, fieldSize);
 end
+clf;
