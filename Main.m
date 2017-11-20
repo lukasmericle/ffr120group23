@@ -6,7 +6,7 @@ nPreyAgents = 100;
 nPreyNeighbors = 6; % https://doi.org/10.1016/j.anbehav.2008.02.004
 maxPreyTurningAngle = pi/5;
 
-nPredatorAgents = 1;
+nPredatorAgents = 2;
 nPredatorNeighbors = 12;
 maxPredatorTurningAngle = pi/10;
 predatorSpeed = 1.5;
