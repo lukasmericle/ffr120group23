@@ -5,4 +5,3 @@ title(myTitle);
 xlim([0 fieldSize]);
 ylim([0 fieldSize]);
 drawnow;
-pause(2);

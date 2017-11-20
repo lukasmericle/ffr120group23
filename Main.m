@@ -11,10 +11,10 @@ nPredatorNeighbors = 12;
 maxPredatorTurningAngle = pi/10;
 predatorSpeed = 1.5;
 
-deltaT = 0.3;
+deltaT = 0.5;
 maxTime = 100;
 fieldSize = 100;
-captureDistance = 3;
+captureDistance = 5;
 nCompetitions = 3;
 
 % neural network parameters

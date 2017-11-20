@@ -21,6 +21,8 @@ preyObj = plot(preyPos(:,1), preyPos(:,2),'g.');
 hold on;
 predatorObj = plot(predatorPos(:,1), predatorPos(:,2),'r*');
 title('t=0');
+xlim([0 fieldSize]);
+ylim([0 fieldSize]);
 drawnow;
 
 timeElapsed = 0;
