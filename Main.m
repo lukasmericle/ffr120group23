@@ -14,15 +14,15 @@ maxPreyTurningAngle = pi/5;
 
 nPredatorAgents = 3;
 nPredatorNeighbors = nPreyNeighbors * 2;
-maxPredatorTurningAngle = maxPreyTurningAngle / 2;
 predatorSpeed = 1.5;
+maxPredatorTurningAngle = maxPreyTurningAngle / predatorSpeed;
 
 % neural network parameters
-nPreyNNInputs = 3*(nPreyNeighbors + nPredatorAgents);
+nPreyNNInputs = 3*(nPreyNeighbors + nPredatorAgents) + 3;
 nPreyNNOutputs = 1;
 nPreyNNHidden = floor(sqrt(nPreyNNInputs * nPreyNNOutputs));
 
-nPredatorNNInputs = 3*(nPredatorNeighbors + nPredatorAgents - 1);
+nPredatorNNInputs = 3*(nPredatorNeighbors + nPredatorAgents - 1) + 3;
 nPredatorNNOutputs = 1;
 nPredatorNNHidden = floor(sqrt(nPredatorNNInputs * nPredatorNNOutputs));
 
@@ -44,8 +44,8 @@ preyMutationProbability = mutationFrequency/preyChromosomeLength;
 predatorChromosomeLength = nPredatorNNOutputs + nPredatorNNOutputs*nPredatorNNHidden + nPredatorNNHidden + nPredatorNNHidden*nPredatorNNInputs;
 predatorMutationProbability = mutationFrequency/predatorChromosomeLength;
 
-preyPopulation = InitializePopulation(populationSize, nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs, mutationDistance);
-predatorPopulation = InitializePopulation(populationSize, nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs, mutationDistance);
+preyPopulation = InitializePopulation(populationSize, preyChromosomeLength, mutationDistance);
+predatorPopulation = InitializePopulation(populationSize, predatorChromosomeLength, mutationDistance);
 
 gen = 0;
 

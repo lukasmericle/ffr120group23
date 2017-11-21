@@ -1,6 +1,5 @@
-function population = InitializePopulation(populationSize, nInputs, nHidden, nOutputs, mutationDistance)
+function population = InitializePopulation(populationSize, chromosomeLength, mutationDistance)
 % create a random population
 
-chromosomeSize = nOutputs + nOutputs*nHidden + nHidden + nHidden*nInputs;
-randSpread = rand(populationSize, chromosomeSize);
+randSpread = rand(populationSize, chromosomeLength);
 population = mutationDistance * (2 * randSpread - 1);

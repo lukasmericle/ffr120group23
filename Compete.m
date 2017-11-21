@@ -29,12 +29,12 @@ while (timeElapsed < maxTime)
         break
     end
     preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyAgents, nPreyNeighbors);
-    preyInputVectors = [preyPreyParameters preyPredatorParameters];
+    preyInputVectors = [preyPos preyVel' preyPreyParameters preyPredatorParameters];
     if nPredatorAgents > 1
         predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents, nPredatorAgents-1);
-        predatorInputVectors = [predatorPreyParameters predatorPredatorParameters];
+        predatorInputVectors = [predatorPos predatorVel' predatorPreyParameters predatorPredatorParameters];
     else
-        predatorInputVectors = predatorPreyParameters;
+        predatorInputVectors = [predatorPos predatorVel' predatorPreyParameters];
     end
     
     [preyPos, preyVel] = UpdateAgentState(preyPos, preyVel, preyInputVectors, preyT1, preyW12, preyT2, preyW23, maxPreyTurningAngle, preyStepLength, deltaT, fieldSize);
