@@ -3,7 +3,7 @@ function population = SteadyStateGAUpdate(population, fitnesses, populationSize,
 % drops worst two individuals and generates two more from remaining population
 
 population = population(1:populationSize-2, :);
-fitnesses = fitnesses(1:populationSize-2, :);
+fitnesses = fitnesses(:, 1:populationSize-2);
 
 individual1 = TournamentSelect(fitnesses, selectionParameter, 2);
 individual2 = TournamentSelect(fitnesses, selectionParameter, 2);

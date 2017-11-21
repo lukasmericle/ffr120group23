@@ -2,20 +2,20 @@ clear all;
 clc;
 
 % simulation parameters
-nPreyAgents = 333;
+deltaT = 1;
+maxTime = 120;
+fieldSize = 100;
+captureDistance = 1;
+nCompetitions = 1;
+
+nPreyAgents = 300;
 nPreyNeighbors = 6; % https://doi.org/10.1016/j.anbehav.2008.02.004
 maxPreyTurningAngle = pi/5;
 
 nPredatorAgents = 3;
-nPredatorNeighbors = 12;
-maxPredatorTurningAngle = pi/10;
+nPredatorNeighbors = nPreyNeighbors * 2;
+maxPredatorTurningAngle = maxPreyTurningAngle / 2;
 predatorSpeed = 1.5;
-
-deltaT = 0.5;
-maxTime = 100;
-fieldSize = 100;
-captureDistance = 1;
-nCompetitions = 3;
 
 % neural network parameters
 nPreyNNInputs = 3*(nPreyNeighbors + nPredatorAgents);
@@ -27,12 +27,17 @@ nPredatorNNOutputs = 1;
 nPredatorNNHidden = floor(sqrt(nPredatorNNInputs * nPredatorNNOutputs));
 
 % genetic algorithm parameters
-populationSize = 5;
+populationSize = 4;
 selectionParameter = (sqrt(5)-1)/2;
 mutationFrequency = 1; % per chromosome
 mutationDistance = 1;
 
 %------------------------------------------------------------------------------
+
+maxPreyTurningAngle = maxPreyTurningAngle  * deltaT;
+maxPredatorTurningAngle = maxPredatorTurningAngle  * deltaT;
+preyStepLength = deltaT;
+predatorStepLength = predatorSpeed * deltaT;
 
 preyChromosomeLength = nPreyNNOutputs + nPreyNNOutputs*nPreyNNHidden + nPreyNNHidden + nPreyNNHidden*nPreyNNInputs;
 preyMutationProbability = mutationFrequency/preyChromosomeLength;
@@ -42,15 +47,17 @@ predatorMutationProbability = mutationFrequency/predatorChromosomeLength;
 preyPopulation = InitializePopulation(populationSize, nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs, mutationDistance);
 predatorPopulation = InitializePopulation(populationSize, nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs, mutationDistance);
 
+gen = 0;
+
 fitnessMatrix = zeros(populationSize);
 [fitnessMatrix, preyFitnesses, predatorFitnesses] = UpdateFitnesses(fitnessMatrix, ...
-                              preyPopulation, nPreyAgents, nPreyNeighbors, maxPreyTurningAngle, ...
+                              preyPopulation, nPreyAgents, nPreyNeighbors, maxPreyTurningAngle, preyStepLength, ...
                               nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs, ...
-                              predatorPopulation, nPredatorAgents, nPredatorNeighbors, maxPredatorTurningAngle, predatorSpeed, ...
+                              predatorPopulation, nPredatorAgents, nPredatorNeighbors, maxPredatorTurningAngle, predatorStepLength, ...
                               nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs, ...
-                              deltaT, maxTime, fieldSize, captureDistance, nCompetitions);
+                              deltaT, maxTime, fieldSize, captureDistance, nCompetitions, gen);
 
-gen = 0;
+figure(1);
 
 while true
     
@@ -64,10 +71,10 @@ while true
     fitnessMatrix(populationSize-1:populationSize, :) = 0;
     fitnessMatrix(:, populationSize-1:populationSize) = 0;
     [fitnessMatrix, preyFitnesses, predatorFitnesses] = UpdateFitnesses(fitnessMatrix, ...
-                              preyPopulation, nPreyAgents, nPreyNeighbors, maxPreyTurningAngle, ...
+                              preyPopulation, nPreyAgents, nPreyNeighbors, maxPreyTurningAngle, preyStepLength, ...
                               nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs, ...
-                              predatorPopulation, nPredatorAgents, nPredatorNeighbors, maxPredatorTurningAngle, predatorSpeed, ...
+                              predatorPopulation, nPredatorAgents, nPredatorNeighbors, maxPredatorTurningAngle, predatorStepLength, ...
                               nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs, ...
-                              deltaT, maxTime, fieldSize, captureDistance, nCompetitions);
+                              deltaT, maxTime, fieldSize, captureDistance, nCompetitions, gen);
 
 end
