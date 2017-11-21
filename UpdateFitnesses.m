@@ -25,5 +25,5 @@ for i = 1:length(rows)
     fitnessMatrix(row,col) = fitness/nCompetitions;
 end
 
-preyFitnesses = sum(fitnessMatrix, 2)';
-predatorFitnesses = -sum(fitnessMatrix, 1);
+preyFitnesses = sum(fitnessMatrix, 2)'
+predatorFitnesses = -sum(fitnessMatrix, 1)

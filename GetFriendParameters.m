@@ -14,7 +14,9 @@ parameters = zeros(nAgents, 3*nNeighbors);
 for i = 1:nAgents
     displacement = pos(neighborSortIndex(i,:),:) - repmat(pos(i,:), nNeighbors, 1);
     rho = neighborDists(i,:);
-    theta = mod(atan2(displacement(:,2), displacement(:,1)) - repmat(vel(i), nNeighbors, 1), twopi);
-    phi = mod(vel(neighborSortIndex(i,:)) - vel(i), twopi);
+    theta = atan2(displacement(:,2), displacement(:,1)) - repmat(vel(i), nNeighbors, 1);
+    theta = theta + twopi*(theta < 0);
+    phi = vel(neighborSortIndex(i,:)) - vel(i);
+    phi = phi + twopi*(phi < 0);
     parameters(i,:) = reshape([rho ; theta' ; phi], 1, []);
 end

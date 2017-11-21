@@ -7,6 +7,8 @@ function timeElapsed = Compete(preyNN, nPreyAgents, nPreyNeighbors, maxPreyTurni
 % simulation parameters, returning the time elapsed before one of the stop
 % conditions was met
 
+%TODO replace pos/vel awareness with vector to nearest wall (in own ref. frame)
+
 [preyT1, preyW12, preyT2, preyW23] = DecodeChromosome(preyNN, nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs);
 [predatorT1, predatorW12, predatorT2, predatorW23] = DecodeChromosome(predatorNN, nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs);
 

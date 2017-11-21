@@ -17,8 +17,10 @@ end
 for i = 1:nPreyAgents
     displacement = predatorPos(preyPredatorSortIndex(i,:),:) - repmat(preyPos(i,:), nPredatorAgents, 1);
     rho = preyPredatorNeighbors(i,:);
-    theta = mod(atan2(displacement(:,2), displacement(:,1)) - repmat(preyVel(i), nPredatorAgents, 1), twopi);
-    phi = mod(predatorVel(preyPredatorSortIndex(i,:)) - preyVel(i), twopi);
+    theta = atan2(displacement(:,2), displacement(:,1)) - repmat(preyVel(i), nPredatorAgents, 1);
+    theta = theta + twopi*(theta < 0);
+    phi = predatorVel(preyPredatorSortIndex(i,:)) - preyVel(i);
+    phi = phi + twopi*(phi < 0);
     preyPredatorParameters(i,:) = reshape([rho ; theta' ; phi], 1, []);
 end
 
@@ -28,7 +30,9 @@ predatorPreySortIndex = predatorPreySortIndex(1:nPredatorNeighbors,:)';
 for i = 1:nPredatorAgents
     rho = predatorPreyNeighbors(i,:);
     displacement = preyPos(predatorPreySortIndex(i,:),:) - repmat(predatorPos(i,:), nPredatorNeighbors, 1);
-    theta = mod(atan2(displacement(:,2), displacement(:,1)) - repmat(predatorVel(i), nPredatorNeighbors, 1), twopi);
-    phi = mod(preyVel(predatorPreySortIndex(i,:)) - predatorVel(i), twopi);
+    theta = atan2(displacement(:,2), displacement(:,1)) - repmat(predatorVel(i), nPredatorNeighbors, 1);
+    theta = theta + twopi*(theta < 0);
+    phi = preyVel(predatorPreySortIndex(i,:)) - predatorVel(i);
+    phi = phi + twopi*(phi < 0);
     predatorPreyParameters(i,:) = reshape([rho ; theta' ; phi], 1, []);
 end
