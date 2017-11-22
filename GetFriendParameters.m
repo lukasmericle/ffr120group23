@@ -12,11 +12,9 @@ neighborSortIndex = allSortIndex(:, 2:(2+nNeighbors-1));
 
 parameters = zeros(nAgents, 3*nNeighbors);
 for i = 1:nAgents
-    displacement = bsxfun(@minus, pos(neighborSortIndex(i,:),:), pos(i,:));
+    displacement = pos(neighborSortIndex(i,:),:) - pos(i,:);
     rho = neighborDists(i,:);
-    theta = atan2(displacement(:,2), displacement(:,1)) - vel(i);
-    theta = theta + twopi*(theta < 0);
-    phi = vel(neighborSortIndex(i,:)) - vel(i);
-    phi = phi + twopi*(phi < 0);
+    theta = mod(atan2(displacement(:,2), displacement(:,1)) - vel(i), twopi);
+    phi = mod(vel(neighborSortIndex(i,:)) - vel(i), twopi);
     parameters(i,:) = reshape([rho ; theta' ; phi'], 1, []);
 end

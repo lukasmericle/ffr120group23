@@ -19,8 +19,10 @@ function timeElapsed = Compete(preyNN, nPreyAgents, nPreyNeighbors, maxPreyTurni
 clf;
 preyObj = plot(preyPos(:,1), preyPos(:,2), 'b.');
 hold on;
+xlim manual;
+ylim manual;
 predatorObj = plot(predatorPos(:,1), predatorPos(:,2), 'r*');
-myTitle = ['Gen=', num2str(thisGeneration), ', t=0'];
+myTitle = ['Gen=', num2str(thisGeneration), ', t=0.0'];
 title(myTitle);
 xlim([0 fieldSize]);
 ylim([0 fieldSize]);
@@ -53,7 +55,7 @@ while (timeElapsed < maxTime)
     [predatorPolarization, predatorAngularMomentum] = GetFlockStats(predatorPos, predatorVel, nPredatorAgents);
     
     timeElapsed = timeElapsed + deltaT;
-    myTitle = ['Gen=', num2str(thisGeneration), ', t=', num2str(timeElapsed)];
+    myTitle = ['Gen=', num2str(thisGeneration), ', t=', num2str(round(timeElapsed, 1))];
     PlotAgentStates(preyObj, preyPos, predatorObj, predatorPos, myTitle, fieldSize);
 end
 clf;
