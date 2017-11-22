@@ -15,11 +15,11 @@ predatorSpeed = 1.5;
 maxPredatorTurningAngle = maxPreyTurningAngle / predatorSpeed;
 
 % neural network parameters
-nPreyNNInputs = 3*(nPreyNeighbors + nPredatorAgents) + 3;
+nPreyNNInputs = 3*(nPreyNeighbors + nPredatorAgents) + 4;
 nPreyNNOutputs = 1;
 nPreyNNHidden = floor(sqrt(nPreyNNInputs * nPreyNNOutputs));
 
-nPredatorNNInputs = 3*(nPredatorNeighbors + nPredatorAgents - 1) + 3;
+nPredatorNNInputs = 3*(nPredatorNeighbors + nPredatorAgents - 1) + 4;
 nPredatorNNOutputs = 1;
 nPredatorNNHidden = floor(sqrt(nPredatorNNInputs * nPredatorNNOutputs));
 

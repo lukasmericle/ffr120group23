@@ -33,13 +33,17 @@ while (timeElapsed < maxTime)
     if captured
         break
     end
+    
+    preyWallVectors = GetWallVectors(preyPos, preyVel, fieldSize);
+    predatorWallVectors = GetWallVectors(predatorPos, predatorVel, fieldSize);
+    
     preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyAgents, nPreyNeighbors);
-    preyInputVectors = [preyPos preyVel preyPreyParameters preyPredatorParameters];
+    preyInputVectors = [preyWallVectors preyPreyParameters preyPredatorParameters];
     if nPredatorAgents > 1
         predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents, nPredatorAgents-1);
-        predatorInputVectors = [predatorPos predatorVel predatorPreyParameters predatorPredatorParameters];
+        predatorInputVectors = [predatorWallVectors predatorPreyParameters predatorPredatorParameters];
     else
-        predatorInputVectors = [predatorPos predatorVel predatorPreyParameters];
+        predatorInputVectors = [predatorWallVectors predatorPreyParameters];
     end
     
     [preyPos, preyVel] = UpdateAgentState(preyPos, preyVel, preyInputVectors, preyT1, preyW12, preyT2, preyW23, maxPreyTurningAngle, preyStepLength, deltaT, fieldSize);
