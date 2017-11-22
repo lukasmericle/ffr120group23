@@ -15,10 +15,13 @@ function timeElapsed = Compete(preyNN, nPreyAgents, nPreyNeighbors, maxPreyTurni
 [preyPos, preyVel] = RandomSpawn(nPreyAgents, fieldSize, [(3/4) (1/2)]);
 [predatorPos, predatorVel] = RandomSpawn(nPredatorAgents, fieldSize, [1/4 1/2]);
 
-preyObj = plot(preyPos(:,1), preyPos(:,2),'b.');
+
+clf;
+preyObj = plot(preyPos(:,1), preyPos(:,2), 'b.');
 hold on;
-predatorObj = plot(predatorPos(:,1), predatorPos(:,2),'r*');
-title(['Gen=', num2str(thisGeneration), ', t=0']);
+predatorObj = plot(predatorPos(:,1), predatorPos(:,2), 'r*');
+myTitle = ['Gen=', num2str(thisGeneration), ', t=0'];
+title(myTitle);
 xlim([0 fieldSize]);
 ylim([0 fieldSize]);
 drawnow;
@@ -31,12 +34,12 @@ while (timeElapsed < maxTime)
         break
     end
     preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyAgents, nPreyNeighbors);
-    preyInputVectors = [preyPos preyVel' preyPreyParameters preyPredatorParameters];
+    preyInputVectors = [preyPos preyVel preyPreyParameters preyPredatorParameters];
     if nPredatorAgents > 1
         predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents, nPredatorAgents-1);
-        predatorInputVectors = [predatorPos predatorVel' predatorPreyParameters predatorPredatorParameters];
+        predatorInputVectors = [predatorPos predatorVel predatorPreyParameters predatorPredatorParameters];
     else
-        predatorInputVectors = [predatorPos predatorVel' predatorPreyParameters];
+        predatorInputVectors = [predatorPos predatorVel predatorPreyParameters];
     end
     
     [preyPos, preyVel] = UpdateAgentState(preyPos, preyVel, preyInputVectors, preyT1, preyW12, preyT2, preyW23, maxPreyTurningAngle, preyStepLength, deltaT, fieldSize);
@@ -47,6 +50,6 @@ while (timeElapsed < maxTime)
     
     timeElapsed = timeElapsed + deltaT;
     myTitle = ['Gen=', num2str(thisGeneration), ', t=', num2str(timeElapsed)];
-    PlotAgentStates(preyObj, preyPos, preyVel, predatorObj, predatorPos, predatorVel, myTitle, fieldSize);
+    PlotAgentStates(preyObj, preyPos, predatorObj, predatorPos, myTitle, fieldSize);
 end
 clf;

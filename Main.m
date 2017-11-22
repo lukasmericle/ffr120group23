@@ -1,6 +1,3 @@
-clear all;
-clc;
-
 % simulation parameters
 deltaT = 1;
 maxTime = 120;
