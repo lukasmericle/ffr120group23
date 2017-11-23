@@ -30,23 +30,17 @@ drawnow;
 
 timeElapsed = 0;
 captured = false;
-while (timeElapsed < maxTime)
-    [preyPredatorParameters, predatorPreyParameters, captured] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPreyAgents, nPredatorAgents, nPredatorNeighbors, captureDistance);
-    if captured
-        break
-    end
+while (timeElapsed < maxTime) && ~captured
     
     preyWallVectors = GetWallVectors(preyPos, preyVel, fieldSize);
     predatorWallVectors = GetWallVectors(predatorPos, predatorVel, fieldSize);
     
-    preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyAgents, nPreyNeighbors);
-    preyInputVectors = [preyWallVectors preyPreyParameters preyPredatorParameters];
-    if nPredatorAgents > 1
-        predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents, nPredatorAgents-1);
-        predatorInputVectors = [predatorWallVectors predatorPreyParameters predatorPredatorParameters];
-    else
-        predatorInputVectors = [predatorWallVectors predatorPreyParameters];
-    end
+    preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyNeighbors);
+    [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPredatorAgents, nPredatorNeighbors);
+    predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents-1);
+    
+    preyInputVectors = [preyWallVectors ; preyPreyParameters ; preyPredatorParameters];
+    predatorInputVectors = [predatorWallVectors ; predatorPreyParameters ; predatorPredatorParameters];
     
     [preyPos, preyVel] = UpdateAgentState(preyPos, preyVel, preyInputVectors, preyT1, preyW12, preyT2, preyW23, maxPreyTurningAngle, preyStepLength, deltaT, fieldSize);
     [preyPolarization, preyAngularMomentum] = GetFlockStats(preyPos, preyVel, nPreyAgents);
@@ -54,8 +48,9 @@ while (timeElapsed < maxTime)
     [predatorPos, predatorVel] = UpdateAgentState(predatorPos, predatorVel, predatorInputVectors, predatorT1, predatorW12, predatorT2, predatorW23, maxPredatorTurningAngle, predatorStepLength, deltaT, fieldSize);
     [predatorPolarization, predatorAngularMomentum] = GetFlockStats(predatorPos, predatorVel, nPredatorAgents);
     
+    captured = CheckCaptured(preyPos, predatorPos, captureDistance);
     timeElapsed = timeElapsed + deltaT;
     myTitle = ['Gen=', num2str(thisGeneration), ', t=', num2str(round(timeElapsed, 1))];
-    PlotAgentStates(preyObj, preyPos, predatorObj, predatorPos, myTitle, fieldSize);
+    %PlotAgentStates(preyObj, preyPos, predatorObj, predatorPos, myTitle, fieldSize);
 end
 clf;
