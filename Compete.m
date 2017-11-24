@@ -49,6 +49,6 @@ while (timeElapsed < maxTime) && ~captured
     captured = CheckCaptured(preyPos, predatorPos, captureDistance);
     timeElapsed = timeElapsed + deltaT;
     myTitle = ['Gen=', num2str(thisGeneration), ', t=', num2str(round(timeElapsed, 1))];
-    %PlotAgentStates(preyObj, preyPos, predatorObj, predatorPos, myTitle, fieldSize);
+    PlotAgentStates(preyObj, preyPos, predatorObj, predatorPos, myTitle, fieldSize);
 end
 clf;
