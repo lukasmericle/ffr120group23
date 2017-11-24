@@ -1,4 +1,6 @@
 function wallVecs = GetWallVectors(pos, vel, fieldSize)
+% get vector to two nearest walls (x/y) relative to own reference frame
+
 closestWall = fieldSize*(pos > fieldSize/2);
 r = abs(pos - closestWall);
 dirWallX = pi*(closestWall(:,1)==0);

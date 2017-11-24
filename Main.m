@@ -1,9 +1,9 @@
 % simulation parameters
-nPreyAgents = 300;
-nPreyNeighbors = 6; % https://doi.org/10.1016/j.anbehav.2008.02.004
+nPreyAgents = 5;
+nPreyNeighbors = 2; % https://doi.org/10.1016/j.anbehav.2008.02.004
 maxPreyTurningAngle = pi/5;
 
-nPredatorAgents = 3;
+nPredatorAgents = 1;
 nPredatorNeighbors = nPreyNeighbors * 2;
 predatorSpeed = 1.5;
 maxPredatorTurningAngle = maxPreyTurningAngle / predatorSpeed;
