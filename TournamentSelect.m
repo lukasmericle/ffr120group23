@@ -10,7 +10,7 @@ elseif tournamentSize < 2
 end
 
 [selectedFitnesses, selectedIndividuals] = datasample(fitnessValues, tournamentSize);
-[sortedFitnesses, sortIndices] = sort(selectedFitnesses, 'descend');
+[~, sortIndices] = sort(selectedFitnesses, 'descend');
 sortedIndividuals = selectedIndividuals(sortIndices);
 
 winnerFound = false;

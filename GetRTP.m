@@ -14,15 +14,15 @@ displacementNorm = sqrt(displacementVec(:,:,1).^2 + displacementVec(:,:,2).^2);
 [distNeighbors, sortNeighbors] = sort(displacementNorm, 2);
 rho = distNeighbors(:, 1:nNeighbors);
 neighborIndices = sortNeighbors(:, 1:nNeighbors);
-neighborIndices2 = neighborIndices+n2*(0:(n1-1))';
+neighborIndices2 = neighborIndices'+n2*(0:(n1-1));
 displacementVec2 = reshape(displacementVec, [], 2);
 displacementNeighbors = -reshape(displacementVec2(neighborIndices2,:), n1, nNeighbors, 2);
 theta = mod(atan2(displacementNeighbors(:,:,2), displacementNeighbors(:,:,1)) - vel1, 2*pi);
 phi = mod(vel2(neighborIndices) - vel1, 2*pi);
 
-params = zeros(size(rho, 1), nNeighbors, 3);
+params = zeros(n1, nNeighbors, 3);
 params(:,:,1) = rho;
 params(:,:,2) = theta;
 params(:,:,3) = phi;
 
-rtpParams = reshape(permute(params, [3,2,1]), [], 3*nNeighbors)';
+rtpParams = reshape(permute(params, [3 2 1]), [], n1);

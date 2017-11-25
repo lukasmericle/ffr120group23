@@ -1,17 +1,15 @@
 % simulation parameters
-nPreyAgents = 200;
+nPreyAgents = 300;
 nPreyNeighbors = 6; % https://doi.org/10.1016/j.anbehav.2008.02.004
-maxPreyTurningAngle = pi/5;
+preyTurningRadius = 1;
 
-nPredatorAgents = 2;
+nPredatorAgents = 3;
 nPredatorNeighbors = nPreyNeighbors * 2;
 predatorSpeed = 1.5;
-maxPredatorTurningAngle = maxPreyTurningAngle / predatorSpeed;
+predatorTurningRadius = preyTurningRadius * predatorSpeed;
 
-fieldSize = 100;
-captureDistance = fieldSize / 100;
 nCompetitions = 2;
-deltaT = captureDistance / predatorSpeed;
+deltaT = 0.2;
 maxTime = 120;
 
 % genetic algorithm parameters
@@ -24,19 +22,22 @@ mutationDistance = 1;
 
 nPreyNeighbors = min(nPreyNeighbors, nPreyAgents-1);
 nPredatorNeighbors = min(nPredatorNeighbors, nPreyAgents);
-maxPreyTurningAngle = maxPreyTurningAngle  * deltaT;
-maxPredatorTurningAngle = maxPredatorTurningAngle  * deltaT;
+maxPreyTurningAngle = acos(1 - deltaT^2 / (2*preyTurningRadius^2));
+maxPredatorTurningAngle = acos(1 - predatorSpeed * deltaT^2 / (2*predatorTurningRadius^2));
 preyStepLength = deltaT;
 predatorStepLength = predatorSpeed * deltaT;
+fieldArea = 2 * pi*(nPreyAgents*preyTurningRadius^2 + nPredatorAgents*predatorTurningRadius^2);
+fieldSize = sqrt(fieldArea)
+captureDistance = (predatorSpeed-1)*deltaT/2
 
 % neural network parameters
-nPreyNNInputs = 3*(nPreyNeighbors + nPredatorAgents) + 4
+nPreyNNInputs = 3*(nPreyNeighbors + nPredatorAgents) + 4;
 nPreyNNOutputs = 1;
-nPreyNNHidden = ceil(3*sqrt(nPreyNNInputs + nPreyNNOutputs))
+nPreyNNHidden = ceil(3*sqrt(nPreyNNInputs + nPreyNNOutputs));
 
-nPredatorNNInputs = 3*(nPredatorNeighbors + nPredatorAgents - 1) + 4
+nPredatorNNInputs = 3*(nPredatorNeighbors + nPredatorAgents - 1) + 4;
 nPredatorNNOutputs = 1;
-nPredatorNNHidden = ceil(3*sqrt(nPredatorNNInputs + nPredatorNNOutputs))
+nPredatorNNHidden = ceil(3*sqrt(nPredatorNNInputs + nPredatorNNOutputs));
 
 
 preyChromosomeLength = nPreyNNOutputs + nPreyNNOutputs*nPreyNNHidden + nPreyNNHidden + nPreyNNHidden*nPreyNNInputs;

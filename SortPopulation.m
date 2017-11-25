@@ -6,10 +6,10 @@ toSort = [preyFitnesses' fitnessMatrix];
 [sortedMatrix, preySortIndex] = sortrows(toSort, 'descend');
 preyFitnesses = sortedMatrix(:, 1)';
 preyPopulation = preyPopulation(preySortIndex,:);
-fitnessMatrix = sortedMatrix(:, 2:size(sortedMatrix, 2));
+fitnessMatrix = sortedMatrix(:, 2:end);
 
 toSort = [predatorFitnesses' fitnessMatrix'];
 [sortedMatrix, predatorSortIndex] = sortrows(toSort, 'descend');
 predatorFitnesses = sortedMatrix(:, 1)';
 predatorPopulation = predatorPopulation(predatorSortIndex,:);
-fitnessMatrix = sortedMatrix(:, 2:size(sortedMatrix, 2))';
+fitnessMatrix = sortedMatrix(:, 2:end)';
