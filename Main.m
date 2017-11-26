@@ -59,7 +59,6 @@ fitnessMatrix = zeros(populationSize);
                               deltaT, maxTime, fieldSize, captureDistance, nCompetitions, gen);
 
 figure(1);
-clf;
 
 while true
     
