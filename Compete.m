@@ -13,18 +13,7 @@ function timeElapsed = Compete(preyNN, nPreyAgents, nPreyNeighbors, maxPreyTurni
 [preyPos, preyVel] = RandomSpawn(nPreyAgents, fieldSize, [(3/4) (1/2)]);
 [predatorPos, predatorVel] = RandomSpawn(nPredatorAgents, fieldSize, [1/4 1/2]);
 
-
-clf;
-preyObj = plot(preyPos(:,1), preyPos(:,2), 'b.');
-hold on;
-xlim manual;
-ylim manual;
-predatorObj = plot(predatorPos(:,1), predatorPos(:,2), 'r*');
-myTitle = ['Gen=', num2str(thisGeneration), ', t=0.0'];
-title(myTitle);
-xlim([0 fieldSize]);
-ylim([0 fieldSize]);
-drawnow;
+%[preyObj, predatorObj] = InitializePlot(preyPos, predatorPos, fieldSize, thisGeneration);
 
 timeElapsed = 0;
 captured = false;
@@ -47,7 +36,7 @@ while (timeElapsed < maxTime) && ~captured
     
     captured = CheckCaptured(preyPos, predatorPos, captureDistance);
     timeElapsed = timeElapsed + deltaT;
-    myTitle = ['Gen=', num2str(thisGeneration), ', t=', num2str(round(timeElapsed, 1))];
-    PlotAgentStates(preyObj, preyPos, predatorObj, predatorPos, myTitle, fieldSize);
+    myTitle = ['Gen = %4d, t = %5.2f',thisGeneration, round(timeElapsed, 1)];
+    %PlotAgentStates(preyObj, preyPos, predatorObj, predatorPos, myTitle, fieldSize);
 end
 clf;

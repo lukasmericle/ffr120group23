@@ -5,8 +5,8 @@ function population = SteadyStateGAUpdate(population, fitnesses, populationSize,
 population = population(1:populationSize-2, :);
 fitnesses = fitnesses(:, 1:populationSize-2);
 
-individual1 = TournamentSelect(fitnesses, selectionParameter, (populationSize-2)/2);
-individual2 = TournamentSelect(fitnesses, selectionParameter, (populationSize-2)/2);
+individual1 = TournamentSelect(fitnesses, selectionParameter, floor(populationSize/2));
+individual2 = TournamentSelect(fitnesses, selectionParameter, floor(populationSize/2));
 
 % cross with 100% probability
 chromosome1 = population(individual1, :);

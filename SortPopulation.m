@@ -7,9 +7,11 @@ toSort = [preyFitnesses' fitnessMatrix];
 preyFitnesses = sortedMatrix(:, 1)';
 preyPopulation = preyPopulation(preySortIndex,:);
 fitnessMatrix = sortedMatrix(:, 2:end);
+fprintf("Best prey is %d with fitness %.2f\n", preySortIndex(1), preyFitnesses(1));
 
 toSort = [predatorFitnesses' fitnessMatrix'];
 [sortedMatrix, predatorSortIndex] = sortrows(toSort, 'descend');
 predatorFitnesses = sortedMatrix(:, 1)';
 predatorPopulation = predatorPopulation(predatorSortIndex,:);
 fitnessMatrix = sortedMatrix(:, 2:end)';
+fprintf("Best predator is %d with fitness %.2f\n", predatorSortIndex(1), predatorFitnesses(1));

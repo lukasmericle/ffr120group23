@@ -5,17 +5,17 @@ preyTurningRadius = 1;
 
 nPredatorAgents = 3;
 nPredatorNeighbors = nPreyNeighbors * 2;
-predatorSpeed = 1.5;
+predatorSpeed = 1.2;
 predatorTurningRadius = preyTurningRadius * predatorSpeed;
 
 nCompetitions = 2;
-deltaT = 0.2;
+deltaT = 0.5;
 maxTime = 120;
 
 % genetic algorithm parameters
 populationSize = 10;
 selectionParameter = (sqrt(5)-1)/2;
-mutationFrequency = 1; % per chromosome
+mutationFrequency = 2; % per chromosome
 mutationDistance = 1;
 
 %------------------------------------------------------------------------------
@@ -26,9 +26,9 @@ maxPreyTurningAngle = acos(1 - deltaT^2 / (2*preyTurningRadius^2));
 maxPredatorTurningAngle = acos(1 - predatorSpeed * deltaT^2 / (2*predatorTurningRadius^2));
 preyStepLength = deltaT;
 predatorStepLength = predatorSpeed * deltaT;
-fieldArea = 2 * pi*(nPreyAgents*preyTurningRadius^2 + nPredatorAgents*predatorTurningRadius^2);
-fieldSize = sqrt(fieldArea)
-captureDistance = (predatorSpeed-1)*deltaT/2
+fieldArea = 5 * (pi*(nPreyAgents*preyTurningRadius^2 + nPredatorAgents*predatorTurningRadius^2));
+fieldSize = sqrt(fieldArea);
+captureDistance = 1;
 
 % neural network parameters
 nPreyNNInputs = 3*(nPreyNeighbors + nPredatorAgents) + 4;
@@ -51,7 +51,7 @@ predatorPopulation = InitializePopulation(populationSize, predatorChromosomeLeng
 gen = 0;
 
 fitnessMatrix = zeros(populationSize);
-[fitnessMatrix, preyFitnesses, predatorFitnesses] = UpdateFitnesses(fitnessMatrix, ...
+[fitnessMatrix, preyPopulation, preyFitnesses, predatorPopulation, predatorFitnesses] = UpdateFitnesses(fitnessMatrix, ...
                               preyPopulation, nPreyAgents, nPreyNeighbors, maxPreyTurningAngle, preyStepLength, ...
                               nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs, ...
                               predatorPopulation, nPredatorAgents, nPredatorNeighbors, maxPredatorTurningAngle, predatorStepLength, ...
@@ -64,8 +64,6 @@ clf
 while true
     
     gen = gen + 1;
-    
-    [fitnessMatrix, preyPopulation, preyFitnesses, predatorPopulation, predatorFitnesses] = SortPopulation(fitnessMatrix, preyPopulation, preyFitnesses, predatorPopulation, predatorFitnesses);
     
     preyPopulation = SteadyStateGAUpdate(preyPopulation, preyFitnesses, populationSize, selectionParameter, preyMutationProbability, mutationDistance);
     predatorPopulation = SteadyStateGAUpdate(predatorPopulation, predatorFitnesses, populationSize, selectionParameter, preyMutationProbability, mutationDistance);
