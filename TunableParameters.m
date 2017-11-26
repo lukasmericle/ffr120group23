@@ -4,20 +4,20 @@ function [nPreyAgents, nPreyNeighbors, preyTurningRadius, nPredatorAgents, ...
     TunableParameters
 
 % simulation parameters
-nPreyAgents = 300;
+nPreyAgents = 60;
 nPreyNeighbors = 6; % https://doi.org/10.1016/j.anbehav.2008.02.004
 preyTurningRadius = 1;
 
-nPredatorAgents = 3;
+nPredatorAgents = 2;
 predatorSpeed = 1.1;
 
-nCompetitions = 2;
-deltaT = 0.5;
+nCompetitions = 1;
+deltaT = 0.25;
 maxTime = 120;
 captureDistance = 1;
 
 % genetic algorithm parameters
-populationSize = 8;
+populationSize = 4;
 selectionParameter = 0.75;
 mutationFrequency = 2; % per chromosome
 mutationDistance = 1;

@@ -14,14 +14,22 @@ function timeElapsed = Compete(preyNN, nPreyAgents, nPreyNeighbors, maxPreyTurni
 [predatorPos, predatorVel] = RandomSpawn(nPredatorAgents, fieldSize, [1/4 1/2]);
 
 if film
-    clf;
-    [preyObj, predatorObj] = InitializePlot(preyPos, predatorPos, fieldSize, thisGeneration);
+    [ax1, ax2, ax3, preyObj, predatorObj, preyPolObj, preyAngObj, ...
+     predatorPolObj, predatorAngObj] = InitializePlot(preyPos, predatorPos, ...
+                                                    fieldSize, thisGeneration);
+    flockTArr = 0:deltaT:maxTime;
+    timeSteps = length(flockTArr);
+    preyPolArr = zeros(1, timeSteps);
+    preyAngArr = zeros(1, timeSteps);
+    predatorPolArr = zeros(1, timeSteps);
+    predatorAngArr = zeros(1, timeSteps);
     % initialize storage vectors for FlockStats
     % initialize videowriter
 end
 
 timeElapsed = 0;
 captured = false;
+stepCount = 0;
 while (timeElapsed < maxTime) && ~captured
     
     preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyNeighbors,fieldSize);
@@ -35,12 +43,22 @@ while (timeElapsed < maxTime) && ~captured
     
     captured = CheckCaptured(preyPos, predatorPos, captureDistance);
     timeElapsed = timeElapsed + deltaT;
+    stepCount = stepCount + 1;
     
     if film
+        
         [preyPolarization, preyAngularMomentum] = GetFlockStats(preyPos, preyVel, nPreyAgents);
         [predatorPolarization, predatorAngularMomentum] = GetFlockStats(predatorPos, predatorVel, nPredatorAgents);
-        myTitle = sprintf('Gen = %d, t = %5.2f',thisGeneration, round(timeElapsed,2));
-        PlotAgentStates(preyObj, preyPos, predatorObj, predatorPos, myTitle);
+        preyPolArr(stepCount) = preyPolarization;
+        preyAngArr(stepCount) = preyAngularMomentum;
+        predatorPolArr(stepCount) = predatorPolarization;
+        predatorAngArr(stepCount) = predatorAngularMomentum;
+        
+        PlotAgentStates(ax1, preyObj, preyPos, predatorObj, predatorPos);
+        PlotFlockStats(ax2, preyPolObj, preyAngObj, flockTArr(1:stepCount), preyPolArr(1:stepCount), preyAngArr(1:stepCount), timeElapsed);
+        PlotFlockStats(ax3, predatorPolObj, predatorAngObj, flockTArr(1:stepCount), predatorPolArr(1:stepCount), predatorAngArr(1:stepCount), timeElapsed);
+        drawnow;
+        
         % write to video and storage vectors
     end
     
