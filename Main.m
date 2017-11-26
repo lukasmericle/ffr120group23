@@ -5,11 +5,16 @@ preyTurningRadius = 1;
 
 nPredatorAgents = 1;
 nPredatorNeighbors = nPreyNeighbors * 2;
-predatorSpeed = 1.2;
+predatorSpeed = 1.5;
 predatorTurningRadius = preyTurningRadius * predatorSpeed;
 
+<<<<<<< HEAD
 nCompetitions = 1;
 deltaT = 0.5;
+=======
+nCompetitions = 5;
+deltaT = 0.25;
+>>>>>>> 94cbabd833a19a22cd957930ae894e71e612ef78
 maxTime = 120;
 
 % genetic algorithm parameters
