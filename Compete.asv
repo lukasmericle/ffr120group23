@@ -18,39 +18,39 @@ tic
 timeElapsed = single(0);
 captured = single(0);
 
-toc
-tic
-    gpuPreyPos = gpuArray(single(preyPos));
-    gpuPreyVel = gpuArray(single(preyVel));
-    
-    gpuPredatorPos = gpuArray(single(predatorPos));
-    gpuPredatorVel = gpuArray(single(predatorVel));
-    gpuNPredatorAgents = gpuArray(single(nPredatorAgents));
-    gpuNPredatorNeighbors = gpuArray(single(nPredatorNeighbors));
-    
-    %gpuPreyInputVectors = gpuArray(single(preyInputVectors));
-    
-    gpuPreyT1 = gpuArray(single(preyT1));
-    gpuPreyW12 = gpuArray(single(preyW12));
-    gpuPreyT2 = gpuArray(single(preyT2));
-    gpuPreyW23 = gpuArray(single(preyW23));
-    
-    gpuPredatorT1 = gpuArray(single(predatorT1));
-    gpuPredatorW12 = gpuArray(single(predatorW12));
-    gpuPredatorT2 = gpuArray(single(predatorT2));
-    gpuPredatorW23 = gpuArray(single(predatorW23));
-    
-    gpuMaxPreyTurningAngle =gpuArray(single(maxPreyTurningAngle));
-    gpuPreyStepLength =gpuArray(single(preyStepLength));
-    
-    gpuMaxPredatorTurningAngle =gpuArray(single(maxPredatorTurningAngle));
-    gpuPredatorStepLength =gpuArray(single(predatorStepLength));
-    
-    gpuDeltaT = gpuArray(single(deltaT));
-    gpuFieldSize = gpuArray(single(fieldSize));
-    gpuNPreyNeighbors = gpuArray(single(nPreyNeighbors));
-    gpuCaptureDistance = gpuArray(single(captureDistance));
-    gpuTimeElapsed = gpuArray(single(0));
+% toc
+% tic
+%     gpuPreyPos = gpuArray(single(preyPos));
+%     gpuPreyVel = gpuArray(single(preyVel));
+%     
+%     gpuPredatorPos = gpuArray(single(predatorPos));
+%     gpuPredatorVel = gpuArray(single(predatorVel));
+%     gpuNPredatorAgents = gpuArray(single(nPredatorAgents));
+%     gpuNPredatorNeighbors = gpuArray(single(nPredatorNeighbors));
+%     
+%     %gpuPreyInputVectors = gpuArray(single(preyInputVectors));
+%     
+%     gpuPreyT1 = gpuArray(single(preyT1));
+%     gpuPreyW12 = gpuArray(single(preyW12));
+%     gpuPreyT2 = gpuArray(single(preyT2));
+%     gpuPreyW23 = gpuArray(single(preyW23));
+%     
+%     gpuPredatorT1 = gpuArray(single(predatorT1));
+%     gpuPredatorW12 = gpuArray(single(predatorW12));
+%     gpuPredatorT2 = gpuArray(single(predatorT2));
+%     gpuPredatorW23 = gpuArray(single(predatorW23));
+%     
+%     gpuMaxPreyTurningAngle =gpuArray(single(maxPreyTurningAngle));
+%     gpuPreyStepLength =gpuArray(single(preyStepLength));
+%     
+%     gpuMaxPredatorTurningAngle =gpuArray(single(maxPredatorTurningAngle));
+%     gpuPredatorStepLength =gpuArray(single(predatorStepLength));
+%     
+%     gpuDeltaT = gpuArray(single(deltaT));
+%     gpuFieldSize = gpuArray(single(fieldSize));
+%     gpuNPreyNeighbors = gpuArray(single(nPreyNeighbors));
+%     gpuCaptureDistance = gpuArray(single(captureDistance));
+%     gpuTimeElapsed = gpuArray(single(0));
     
 while (timeElapsed < maxTime) && ~captured
 %     tic

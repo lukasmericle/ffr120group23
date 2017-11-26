@@ -21,7 +21,7 @@ theta = mod(atan2(displacementNeighbors(:,:,2), displacementNeighbors(:,:,1)) - 
 phi = mod(vel2(neighborIndices) - vel1, 2*pi);
 
 %params = zeros(n1, nNeighbors, 3);
-%params = zeros(n1, nNeighbours, 3,"single","gpuArray");
+parmas = zeros(n1, nNeighbours, 3,"single","gpuArray");
 params = cat(3, rho, theta, phi);
 
 

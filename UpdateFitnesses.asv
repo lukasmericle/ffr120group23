@@ -10,31 +10,26 @@ function [fitnessMatrix, preyPopulation, preyFitnesses, predatorPopulation, pred
 fprintf("\nGeneration %d\n----\n", gen);
 
 [rows, cols] = find(~fitnessMatrix); % selects all (i,j) where fitnessMatrix(i,j)==0
-preyPopulationParfor = preyPopulation(rows,:);
-predatorPopulationParfor = predatorPopulation(cols,:);
-fitnessParfor = zeros(1,length(rows),'single','gpuArray');
-for i = 1:length(rows)
+preyPopulationParfor = preyPopulation
+parfor i = 1:length(rows)
+    row = rows(i);
+    col = cols(i);
+    fprintf("Evaluating prey %2d vs predator %2d ... ", row, col);
     fitness = 0;
-    
     for n = 1:nCompetitions
-        thisFitness = Compete(preyPopulationParfor(i,:), ...
+        thisFitness = Compete(preyPopulation(row,:), ...
                               nPreyAgents, nPreyNeighbors, maxPreyTurningAngle, preyStepLength, ...
                               nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs, ...
-                              predatorPopulationParfor(i,:), ...
+                              predatorPopulation(col,:), ...
                               nPredatorAgents, nPredatorNeighbors, maxPredatorTurningAngle, predatorStepLength, ...
                               nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs, ...
                               deltaT, maxTime, fieldSize, captureDistance, gen);
         fitness = fitness + thisFitness;
     end
-    fitnessParfor(i) = fitness/nCompetitions;
-    
+    fitnessMatrix(row,col) = fitness/nCompetitions;
+    fprintf("average time elapsed = %6.2fs\n", fitnessMatrix(row,col));
 end
-fitnessParfor = gather(fitnessParfor);
-for i =1:length(rows)
-    row = rows(i);
-    col = cols(i);
-    fitnessMatrix(row,col) = fitnessParfor(i);
-end
+
 preyFitnesses = mean(fitnessMatrix, 2)';
 predatorFitnesses = -mean(fitnessMatrix, 1);
 
