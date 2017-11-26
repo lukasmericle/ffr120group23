@@ -1,20 +1,20 @@
 % simulation parameters
-nPreyAgents = 300;
+nPreyAgents = 50;
 nPreyNeighbors = 6; % https://doi.org/10.1016/j.anbehav.2008.02.004
 preyTurningRadius = 1;
 
-nPredatorAgents = 3;
+nPredatorAgents = 1;
 nPredatorNeighbors = nPreyNeighbors * 2;
 predatorSpeed = 1.2;
 predatorTurningRadius = preyTurningRadius * predatorSpeed;
 
-nCompetitions = 2;
+nCompetitions = 1;
 deltaT = 0.5;
 maxTime = 120;
 
 % genetic algorithm parameters
-populationSize = 10;
-selectionParameter = (sqrt(5)-1)/2;
+populationSize = 6;
+selectionParameter = 0.75;
 mutationFrequency = 2; % per chromosome
 mutationDistance = 1;
 
@@ -59,7 +59,7 @@ fitnessMatrix = zeros(populationSize);
                               deltaT, maxTime, fieldSize, captureDistance, nCompetitions, gen);
 
 figure(1);
-clf
+clf;
 
 while true
     
@@ -70,7 +70,7 @@ while true
     
     fitnessMatrix(populationSize-1:populationSize, :) = 0;
     fitnessMatrix(:, populationSize-1:populationSize) = 0;
-    [fitnessMatrix, preyFitnesses, predatorFitnesses] = UpdateFitnesses(fitnessMatrix, ...
+    [fitnessMatrix, preyPopulation, preyFitnesses, predatorPopulation, predatorFitnesses] = UpdateFitnesses(fitnessMatrix, ...
                               preyPopulation, nPreyAgents, nPreyNeighbors, maxPreyTurningAngle, preyStepLength, ...
                               nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs, ...
                               predatorPopulation, nPredatorAgents, nPredatorNeighbors, maxPredatorTurningAngle, predatorStepLength, ...
