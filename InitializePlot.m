@@ -6,7 +6,7 @@ clf;
 h = figure(1);
 set(h,'Color','w','Units','Pixels','Position',[0 0 1000 500]);
 
-ax1 = axes('Units','Pixels','Position',[50 50 400 400]);
+ax1 = axes('Units','Pixels','Position',[50 25 400 450]);
 box on; hold on;
 xlim manual; ylim manual;
 xlim([0 fieldSize]);
@@ -20,7 +20,7 @@ legend('boxoff');
 legend('Orientation', 'horizontal');
 legend('Location', 'southoutside');
 
-ax2 = axes('Units','Pixels','Position',[550 320 400 130]);
+ax2 = axes('Units','Pixels','Position',[525 315 450 135]);
 box on; hold on;
 ylim manual;
 ylim([0 1]);
@@ -28,7 +28,7 @@ title("Prey Flock Behavior");
 preyPolObj = plot([0], [0], 'r-', 'LineWidth', 1.5);
 preyAngObj = plot([0], [0], 'b-', 'LineWidth', 1.5);
 
-ax3 = axes('Units','Pixels','Position',[550  50 400 220]);
+ax3 = axes('Units','Pixels','Position',[525  50 450 215]);
 box on; hold on;
 ylim manual;
 ylim([0 1]);
