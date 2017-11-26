@@ -5,7 +5,7 @@ function [fitnessMatrix, preyPopulation, preyFitnesses, predatorPopulation, pred
                               nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs, ...
                               deltaT, maxTime, fieldSize, captureDistance, nCompetitions, gen)
 % run a number of simulations to fill in the missing fitnesses in our
-% fitnessMatrix
+% fitnessMatrix, then record a competition between 
 
 fprintf("\nGeneration %d\n----\n", gen);
 
@@ -14,8 +14,8 @@ preyPopulationParfor = preyPopulation(rows,:);
 predatorPopulationParfor = predatorPopulation(cols,:);
 fitnessParfor = zeros(1, length(rows));
 parfor i = 1:length(rows)
+    fprintf("Evaluating prey %2d vs predator %2d ...\n", rows(i), cols(i));
     fitness = 0;
-    fprintf("Evaluating prey %2d vs predator %2d ...\n",rows(i), cols(i));
     for n = 1:nCompetitions
         thisFitness = Compete(preyPopulationParfor(i,:), ...
                               nPreyAgents, nPreyNeighbors, maxPreyTurningAngle, preyStepLength, ...
