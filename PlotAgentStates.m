@@ -1,4 +1,4 @@
-function PlotAgentStates(preyObj, preyPos, predatorObj, predatorPos, myTitle, fieldSize)
+function PlotAgentStates(preyObj, preyPos, predatorObj, predatorPos, myTitle)
 % update plot objects with current location of agents
 
 set(preyObj, 'XData', preyPos(:,1), 'YData', preyPos(:,2));
