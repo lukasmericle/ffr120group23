@@ -31,11 +31,11 @@ fieldSize = sqrt(fieldArea);
 captureDistance = 1;
 
 % neural network parameters
-nPreyNNInputs = 3*(nPreyNeighbors + nPredatorAgents) + 4;
+nPreyNNInputs = 3*(nPreyNeighbors + nPredatorAgents);
 nPreyNNOutputs = 1;
 nPreyNNHidden = ceil(3*sqrt(nPreyNNInputs + nPreyNNOutputs));
 
-nPredatorNNInputs = 3*(nPredatorNeighbors + nPredatorAgents - 1) + 4;
+nPredatorNNInputs = 3*(nPredatorNeighbors + nPredatorAgents - 1);
 nPredatorNNOutputs = 1;
 nPredatorNNHidden = ceil(3*sqrt(nPredatorNNInputs + nPredatorNNOutputs));
 

@@ -19,14 +19,11 @@ timeElapsed = 0;
 captured = false;
 while (timeElapsed < maxTime) && ~captured
     
-    preyWallVectors = GetWallVectors(preyPos, preyVel, fieldSize);
-    predatorWallVectors = GetWallVectors(predatorPos, predatorVel, fieldSize);
-    
     preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyNeighbors,fieldSize);
     [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPredatorAgents, nPredatorNeighbors,fieldSize);
     predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents-1,fieldSize);
-    preyInputVectors = [preyWallVectors ; preyPreyParameters ; preyPredatorParameters];
-    predatorInputVectors = [predatorWallVectors ; predatorPreyParameters ; predatorPredatorParameters];
+    preyInputVectors = [preyPreyParameters ; preyPredatorParameters];
+    predatorInputVectors = [predatorPreyParameters ; predatorPredatorParameters];
     
     [preyPos, preyVel] = UpdateAgentState(preyPos, preyVel, preyInputVectors, preyT1, preyW12, preyT2, preyW23, maxPreyTurningAngle, preyStepLength, deltaT, fieldSize);
     [preyPolarization, preyAngularMomentum] = GetFlockStats(preyPos, preyVel, nPreyAgents);
