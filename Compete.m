@@ -22,9 +22,9 @@ while (timeElapsed < maxTime) && ~captured
     preyWallVectors = GetWallVectors(preyPos, preyVel, fieldSize);
     predatorWallVectors = GetWallVectors(predatorPos, predatorVel, fieldSize);
     
-    preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyNeighbors);
-    [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPredatorAgents, nPredatorNeighbors);
-    predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents-1);
+    preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyNeighbors,fieldSize);
+    [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPredatorAgents, nPredatorNeighbors,fieldSize);
+    predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents-1,fieldSize);
     preyInputVectors = [preyWallVectors ; preyPreyParameters ; preyPredatorParameters];
     predatorInputVectors = [predatorWallVectors ; predatorPreyParameters ; predatorPredatorParameters];
     

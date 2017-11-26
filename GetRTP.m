@@ -1,4 +1,4 @@
-function rtpParams = GetRTP(pos1, vel1, pos2, vel2, nNeighbors)
+function rtpParams = GetRTP(pos1, vel1, pos2, vel2, nNeighbors,fieldSize)
 % for each neighbor of agent in flock 1, get the (rho,theta,phi) tuples of all
 % agents in flock 2 (1 and 2 can be same flock)
 
@@ -10,6 +10,7 @@ n2 = size(pos2,1);
 ppos1 = reshape(pos1, [], 1, 2);
 ppos2 = reshape(pos2, 1, [], 2);
 displacementVec = ppos2 - ppos1;
+displacementVec = ToroidalDistance(displacementVec,fieldSize);
 displacementNorm = sqrt(displacementVec(:,:,1).^2 + displacementVec(:,:,2).^2);
 [distNeighbors, sortNeighbors] = sort(displacementNorm, 2);
 rho = distNeighbors(:, 1:nNeighbors);

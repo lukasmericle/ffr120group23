@@ -1,19 +1,19 @@
 % simulation parameters
-nPreyAgents = 50;
+nPreyAgents = 250;
 nPreyNeighbors = 6; % https://doi.org/10.1016/j.anbehav.2008.02.004
 preyTurningRadius = 1;
 
 nPredatorAgents = 1;
 nPredatorNeighbors = nPreyNeighbors * 2;
-predatorSpeed = 1.5;
+predatorSpeed = 1.1;
 predatorTurningRadius = preyTurningRadius * predatorSpeed;
 
-nCompetitions = 1;
-deltaT = 0.5;
+nCompetitions = 3;
+deltaT = 0.2;
 maxTime = 120;
 
 % genetic algorithm parameters
-populationSize = 6;
+populationSize = 10;
 selectionParameter = 0.75;
 mutationFrequency = 2; % per chromosome
 mutationDistance = 1;

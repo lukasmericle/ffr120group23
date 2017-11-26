@@ -1,0 +1,25 @@
+function [pos, vel] = UpdateAgentState(pos, vel, inputVectors, T1, W12, T2, W23, maxTurningAngle, stepLength, deltaT, fieldSize)
+% computes turn according to NN and updates positions/velocities
+
+nnOutputs = NeuralNetworkComputation(inputVectors, T1, W12, T2, W23);
+
+vel = mod(vel + nnOutputs*maxTurningAngle, 2*pi);
+
+dispX = pos(:,1) + stepLength*cos(vel);
+if dispX < 0
+    pos(:,1) = fieldSize - dispX;
+elseif dispX > fieldSize
+    pos(:,1) = pos(:,1) + stepLength*cos(vel) - fieldSize;
+else
+     pos(:,1) = pos(:,1) + stepLength*cos(vel);
+end
+
+if (pos(:,2) + stepLength*sin(vel)) < 0
+    pos(:,2) = fieldSize - (pos(:,2) + stepLength*sin(vel));
+elseif (pos(:,2) + stepLength*sin(vel)) > fieldSize
+    pos(:,2) = pos(:,2) + stepLength*sin(vel) - fieldSize;
+else
+     pos(:,2) = pos(:,2) + stepLength*sin(vel);
+end
+
+%pos(:,2) = max(0, min(pos(:,2) + stepLength*sin(vel), fieldSize));
