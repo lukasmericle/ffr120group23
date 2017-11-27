@@ -33,9 +33,9 @@ captured = false;
 stepCount = 0;
 while (timeElapsed < maxTime) && ~captured
     
-    [preyPreyParameters, preyDispVec] = GetFriendParameters(preyPos, preyVel, nPreyNeighbors,fieldSize);
+    [preyPreyParameters, preyDispVec, preyDispNorm] = GetFriendParameters(preyPos, preyVel, nPreyNeighbors,fieldSize);
     [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPredatorAgents, nPredatorNeighbors,fieldSize);
-    [predatorPredatorParameters, predatorDispVec] = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents-1,fieldSize);
+    [predatorPredatorParameters, predatorDispVec, predatorDispNorm] = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents-1,fieldSize);
     preyInputVectors = [preyPreyParameters ; preyPredatorParameters];
     predatorInputVectors = [predatorPreyParameters ; predatorPredatorParameters];
     
@@ -45,9 +45,9 @@ while (timeElapsed < maxTime) && ~captured
     if film
         
         preyPolArr(stepCount) = CalcPolarization(preyVel);
-        preyAngArr(stepCount) = CalcAngularMomentum(preyDispVec, preyVel, 1);
+        preyAngArr(stepCount) = CalcAngularMomentum(preyDispVec, preyDispNorm, preyVel, 1);
         predatorPolArr(stepCount) = CalcPolarization(predatorVel);
-        predatorAngArr(stepCount) = CalcAngularMomentum(predatorDispVec, predatorVel, predatorStepLength/deltaT);
+        predatorAngArr(stepCount) = CalcAngularMomentum(predatorDispVec, predatorDispNorm, predatorVel, predatorStepLength/deltaT);
         
         PlotAgentStates(ax1, preyObj, preyPos, predatorObj, predatorPos);
         PlotFlockStats(ax2, preyPolObj, preyAngObj, flockTArr(1:stepCount), preyPolArr(1:stepCount), preyAngArr(1:stepCount), timeElapsed);

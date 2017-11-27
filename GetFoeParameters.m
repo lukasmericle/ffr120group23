@@ -7,4 +7,5 @@ preyPredatorParameters = GetParams(preyDisplacementVec, preyDisplacementNorm, pr
 
 predatorDisplacementVec = permute(preyDisplacementVec, [2 1 3]);
 predatorDisplacementNorm = preyDisplacementNorm';
+
 predatorPreyParameters = GetParams(predatorDisplacementVec, predatorDisplacementNorm, predatorVel, preyVel, nPredatorNeighbors);

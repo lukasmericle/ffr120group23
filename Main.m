@@ -19,11 +19,11 @@ fieldSize = sqrt(fieldArea);
 
 % neural network parameters
 goldenratio = 0.5*(sqrt(5)-1);
-nPreyNNInputs = 4*(nPreyNeighbors + nPredatorAgents);
+nPreyNNInputs = 5*(nPreyNeighbors + nPredatorAgents);
 nPreyNNOutputs = 1;
 nPreyNNHidden = ceil(goldenratio*log(nPreyNNInputs)*nPreyNNInputs^goldenratio);
 
-nPredatorNNInputs = 4*(nPredatorNeighbors + nPredatorAgents - 1);
+nPredatorNNInputs = 5*(nPredatorNeighbors + nPredatorAgents - 1);
 nPredatorNNOutputs = 1;
 nPredatorNNHidden = ceil(goldenratio*log(nPredatorNNInputs)*nPredatorNNInputs^goldenratio);
 

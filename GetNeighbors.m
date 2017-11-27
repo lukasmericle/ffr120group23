@@ -1,4 +1,4 @@
 function neighborIndices = GetNeighbors(dispNorm, nNeighbors)
 
-[~, sortNeighbors] = sort(dispNorm, 2);
-neighborIndices = sortNeighbors(:, 1:nNeighbors);
+[~, sortNeighbors] = sort(dispNorm');
+neighborIndices = sortNeighbors(1:nNeighbors,:);

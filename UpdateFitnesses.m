@@ -13,7 +13,7 @@ fprintf("\nGeneration %d\n----\n", gen);
 preyPopulationParfor = preyPopulation(rows,:);
 predatorPopulationParfor = predatorPopulation(cols,:);
 fitnessParfor = zeros(1, length(rows));
-parfor i = 1:length(rows)
+for i = 1:length(rows)
     fprintf("Evaluating prey %2d vs predator %2d ...\n", rows(i), cols(i));
     fitness = 0;
     for n = 1:nCompetitions

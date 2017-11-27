@@ -20,7 +20,7 @@ legend('boxoff');
 legend('Orientation', 'horizontal');
 legend('Location', 'southoutside');
 
-ax2 = axes('Units','Pixels','Position',[525 315 450 135]);
+ax2 = axes('Units','Pixels','Position',[525 313 450 137]);
 box on; hold on;
 ylim manual;
 ylim([0 1]);
@@ -28,7 +28,7 @@ title("Prey Flock Behavior");
 preyPolObj = plot([0], [0], 'r-', 'LineWidth', 1.5);
 preyAngObj = plot([0], [0], 'b-', 'LineWidth', 1.5);
 
-ax3 = axes('Units','Pixels','Position',[525  50 450 215]);
+ax3 = axes('Units','Pixels','Position',[525  50 450 213]);
 box on; hold on;
 ylim manual;
 ylim([0 1]);

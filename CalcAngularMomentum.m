@@ -1,7 +1,8 @@
-function angularMomentum = CalcAngularMomentum(displacementVec, vel, speed)
+function angularMomentum = CalcAngularMomentum(displacementVec, displacementNorm, vel, speed)
 
 nAgents = length(vel);
-displacements = displacementVec(1, :, :); % since we are finding centroid anyway, we can use any agent. so use first as origin and shift to centroid after
+[~, centralAgent] = min(sum(displacementNorm));
+displacements = displacementVec(centralAgent, :, :);
 centeredDisplacements = reshape(displacements-mean(displacements, 2), nAgents, []);
 rVec = [centeredDisplacements zeros(nAgents, 1)]; % displacement relative to centroid (in 3D)
 velVec = speed*[cos(vel) sin(vel) zeros(nAgents, 1)]; % velocity in Cartesian coords (in 3D)
