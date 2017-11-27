@@ -11,6 +11,3 @@ pos(:,1) = mod(dispX,fieldSize);
 
 dispY = pos(:,2) + stepLength*sin(vel);
 pos(:,2) = mod(dispY,fieldSize);
-
-
-%pos(:,2) = max(0, min(pos(:,2) + stepLength*sin(vel), fieldSize));

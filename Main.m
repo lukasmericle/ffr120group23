@@ -13,18 +13,19 @@ maxPreyTurningAngle = acos(1 - deltaT^2 / (2*preyTurningRadius^2));
 maxPredatorTurningAngle = acos(1 - predatorSpeed * deltaT^2 / (2*predatorTurningRadius^2));
 preyStepLength = deltaT;
 predatorStepLength = predatorSpeed * deltaT;
-fieldArea = 5 * (pi*(nPreyAgents*preyTurningRadius^2 + nPredatorAgents*predatorTurningRadius^2));
+fieldArea = 10 * (pi*(nPreyAgents*preyTurningRadius^2 + nPredatorAgents*predatorTurningRadius^2));
 fieldSize = sqrt(fieldArea);
 
 
 % neural network parameters
-nPreyNNInputs = 3*(nPreyNeighbors + nPredatorAgents);
+goldenratio = 0.5*(sqrt(5)-1);
+nPreyNNInputs = 4*(nPreyNeighbors + nPredatorAgents);
 nPreyNNOutputs = 1;
-nPreyNNHidden = ceil(3*sqrt(nPreyNNInputs + nPreyNNOutputs));
+nPreyNNHidden = ceil(goldenratio*log(nPreyNNInputs)*nPreyNNInputs^goldenratio);
 
-nPredatorNNInputs = 3*(nPredatorNeighbors + nPredatorAgents - 1);
+nPredatorNNInputs = 4*(nPredatorNeighbors + nPredatorAgents - 1);
 nPredatorNNOutputs = 1;
-nPredatorNNHidden = ceil(3*sqrt(nPredatorNNInputs + nPredatorNNOutputs));
+nPredatorNNHidden = ceil(goldenratio*log(nPredatorNNInputs)*nPredatorNNInputs^goldenratio);
 
 preyChromosomeLength = nPreyNNOutputs + nPreyNNOutputs*nPreyNNHidden + nPreyNNHidden + nPreyNNHidden*nPreyNNInputs;
 preyMutationProbability = mutationFrequency/preyChromosomeLength;
@@ -43,8 +44,6 @@ fitnessMatrix = zeros(populationSize);
                               predatorPopulation, nPredatorAgents, nPredatorNeighbors, maxPredatorTurningAngle, predatorStepLength, ...
                               nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs, ...
                               deltaT, maxTime, fieldSize, captureDistance, nCompetitions, gen);
-
-figure(1);
 
 while true
     

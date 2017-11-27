@@ -14,6 +14,8 @@ function timeElapsed = Compete(preyNN, nPreyAgents, nPreyNeighbors, maxPreyTurni
 [predatorPos, predatorVel] = RandomSpawn(nPredatorAgents, fieldSize, [1/4 1/2]);
 
 if film
+    % initialize videowriter
+    
     [ax1, ax2, ax3, preyObj, predatorObj, preyPolObj, preyAngObj, ...
      predatorPolObj, predatorAngObj] = InitializePlot(preyPos, predatorPos, ...
                                                     fieldSize, thisGeneration);
@@ -23,8 +25,7 @@ if film
     preyAngArr = zeros(1, timeSteps);
     predatorPolArr = zeros(1, timeSteps);
     predatorAngArr = zeros(1, timeSteps);
-    % initialize storage vectors for FlockStats
-    % initialize videowriter
+    
 end
 
 timeElapsed = 0;
@@ -32,34 +33,31 @@ captured = false;
 stepCount = 0;
 while (timeElapsed < maxTime) && ~captured
     
-    preyPreyParameters = GetFriendParameters(preyPos, preyVel, nPreyNeighbors,fieldSize);
+    [preyPreyParameters, preyDispVec] = GetFriendParameters(preyPos, preyVel, nPreyNeighbors,fieldSize);
     [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPredatorAgents, nPredatorNeighbors,fieldSize);
-    predatorPredatorParameters = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents-1,fieldSize);
+    [predatorPredatorParameters, predatorDispVec] = GetFriendParameters(predatorPos, predatorVel, nPredatorAgents-1,fieldSize);
     preyInputVectors = [preyPreyParameters ; preyPredatorParameters];
     predatorInputVectors = [predatorPreyParameters ; predatorPredatorParameters];
     
-    [preyPos, preyVel] = UpdateAgentState(preyPos, preyVel, preyInputVectors, preyT1, preyW12, preyT2, preyW23, maxPreyTurningAngle, preyStepLength, deltaT, fieldSize);
-    [predatorPos, predatorVel] = UpdateAgentState(predatorPos, predatorVel, predatorInputVectors, predatorT1, predatorW12, predatorT2, predatorW23, maxPredatorTurningAngle, predatorStepLength, deltaT, fieldSize);
-    
-    captured = CheckCaptured(preyPos, predatorPos, captureDistance);
     timeElapsed = timeElapsed + deltaT;
     stepCount = stepCount + 1;
     
     if film
         
-        [preyPolarization, preyAngularMomentum] = GetFlockStats(preyPos, preyVel, nPreyAgents);
-        [predatorPolarization, predatorAngularMomentum] = GetFlockStats(predatorPos, predatorVel, nPredatorAgents);
-        preyPolArr(stepCount) = preyPolarization;
-        preyAngArr(stepCount) = preyAngularMomentum;
-        predatorPolArr(stepCount) = predatorPolarization;
-        predatorAngArr(stepCount) = predatorAngularMomentum;
+        preyPolArr(stepCount) = CalcPolarization(preyVel);
+        preyAngArr(stepCount) = CalcAngularMomentum(preyDispVec, preyVel, 1);
+        predatorPolArr(stepCount) = CalcPolarization(predatorVel);
+        predatorAngArr(stepCount) = CalcAngularMomentum(predatorDispVec, predatorVel, predatorStepLength/deltaT);
         
         PlotAgentStates(ax1, preyObj, preyPos, predatorObj, predatorPos);
         PlotFlockStats(ax2, preyPolObj, preyAngObj, flockTArr(1:stepCount), preyPolArr(1:stepCount), preyAngArr(1:stepCount), timeElapsed);
         PlotFlockStats(ax3, predatorPolObj, predatorAngObj, flockTArr(1:stepCount), predatorPolArr(1:stepCount), predatorAngArr(1:stepCount), timeElapsed);
         drawnow;
         
-        % write to video and storage vectors
+        % write to video
     end
     
+    [preyPos, preyVel] = UpdateAgentState(preyPos, preyVel, preyInputVectors, preyT1, preyW12, preyT2, preyW23, maxPreyTurningAngle, preyStepLength, deltaT, fieldSize);
+    [predatorPos, predatorVel] = UpdateAgentState(predatorPos, predatorVel, predatorInputVectors, predatorT1, predatorW12, predatorT2, predatorW23, maxPredatorTurningAngle, predatorStepLength, deltaT, fieldSize);
+    captured = CheckCaptured(preyPos, predatorPos, captureDistance);
 end

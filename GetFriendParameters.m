@@ -1,6 +1,8 @@
-function parameters = GetFriendParameters(pos, vel, nNeighbors,fieldSize)
+function [parameters, displacementVec] = GetFriendParameters(pos, vel, nNeighbors,fieldSize)
 % get parameters for agents based on the information provided from the friendly
 % agents
 
-RTP = GetRTP(pos, vel, pos, vel, nNeighbors+1,fieldSize);
-parameters = RTP(4:end,:);
+[displacementVec, displacementNorm] = GetDisplacements(pos, pos, fieldSize);
+
+params = GetParams(displacementVec, displacementNorm, vel, vel, nNeighbors+1);
+parameters = params(5:end,:);

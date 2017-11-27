@@ -1,6 +1,10 @@
-function [preyPredatorParameters, predatorPreyParameters, captured] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPredatorAgents, nPredatorNeighbors,fieldSize)
+function [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(preyPos, preyVel, predatorPos, predatorVel, nPredatorAgents, nPredatorNeighbors,fieldSize)
 % get parameters for agents based on the information provided from the enemy
 % agents
 
-preyPredatorParameters = GetRTP(preyPos, preyVel, predatorPos, predatorVel, nPredatorAgents,fieldSize);
-predatorPreyParameters = GetRTP(predatorPos, predatorVel, preyPos, preyVel, nPredatorNeighbors,fieldSize);
+[preyDisplacementVec, preyDisplacementNorm] = GetDisplacements(preyPos, predatorPos, fieldSize);
+preyPredatorParameters = GetParams(preyDisplacementVec, preyDisplacementNorm, preyVel, predatorVel, nPredatorAgents);
+
+predatorDisplacementVec = permute(preyDisplacementVec, [2 1 3]);
+predatorDisplacementNorm = preyDisplacementNorm';
+predatorPreyParameters = GetParams(predatorDisplacementVec, predatorDisplacementNorm, predatorVel, preyVel, nPredatorNeighbors);
