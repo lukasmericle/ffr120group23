@@ -13,7 +13,7 @@ fprintf("\nGeneration %d\n----\n", gen);
 preyPopulationParfor = preyPopulation(rows,:);
 predatorPopulationParfor = predatorPopulation(cols,:);
 fitnessParfor = zeros(1, length(rows));
-for i = 1:length(rows)
+parfor i = 1:length(rows)
     fprintf("Evaluating prey %2d vs predator %2d ...\n", rows(i), cols(i));
     fitness = 0;
     for n = 1:nCompetitions
@@ -40,6 +40,7 @@ predatorFitnesses = -mean(fitnessMatrix, 1);
 
 [fitnessMatrix, preyPopulation, preyFitnesses, predatorPopulation, predatorFitnesses] = SortPopulation(fitnessMatrix, preyPopulation, preyFitnesses, predatorPopulation, predatorFitnesses);
 
+% this run competes the best prey v best predator and records the competition
 thisFitness = Compete(preyPopulation(1,:), ...
                       nPreyAgents, nPreyNeighbors, maxPreyTurningAngle, preyStepLength, ...
                       nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs, ...

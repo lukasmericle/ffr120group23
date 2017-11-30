@@ -1,6 +1,7 @@
 function [T1, W12, T2, W23] = DecodeChromosome(chromosome, nInputs, nHidden, nOutputs)
 % parses chromosome and extracts matrices/vectors corresponding to NN
 % weights/thresholds
+
 counterLow = 1;
 counterHigh = counterLow + nOutputs;
 T1 = chromosome(counterLow:counterHigh-1);

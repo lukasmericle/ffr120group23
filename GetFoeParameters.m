@@ -3,9 +3,9 @@ function [preyPredatorParameters, predatorPreyParameters] = GetFoeParameters(pre
 % agents
 
 [preyDisplacementVec, preyDisplacementNorm] = GetDisplacements(preyPos, predatorPos, fieldSize);
-preyPredatorParameters = GetParams(preyDisplacementVec, preyDisplacementNorm, preyVel, predatorVel, nPredatorAgents);
+preyPredatorParameters = GetParams(preyDisplacementVec, preyDisplacementNorm, preyVel, predatorVel, nPredatorAgents, fieldSize);
 
 predatorDisplacementVec = permute(preyDisplacementVec, [2 1 3]);
 predatorDisplacementNorm = preyDisplacementNorm';
 
-predatorPreyParameters = GetParams(predatorDisplacementVec, predatorDisplacementNorm, predatorVel, preyVel, nPredatorNeighbors);
+predatorPreyParameters = GetParams(predatorDisplacementVec, predatorDisplacementNorm, predatorVel, preyVel, nPredatorNeighbors, fieldSize);

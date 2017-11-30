@@ -1,5 +1,5 @@
 function population = InitializePopulation(populationSize, chromosomeLength, mutationDistance)
-% create a random population with Gaussian distribution for weights and
-% thresholds
+% create a random population
 
-population = mutationDistance * randn(populationSize, chromosomeLength);
+%population = mutationDistance * randn(populationSize, chromosomeLength);
+population = mutationDistance * (2*rand(populationSize, chromosomeLength)-1);

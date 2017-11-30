@@ -10,8 +10,8 @@ function timeElapsed = Compete(preyNN, nPreyAgents, nPreyNeighbors, maxPreyTurni
 [preyT1, preyW12, preyT2, preyW23] = DecodeChromosome(preyNN, nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs);
 [predatorT1, predatorW12, predatorT2, predatorW23] = DecodeChromosome(predatorNN, nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs);
 
-[preyPos, preyVel] = RandomSpawn(nPreyAgents, fieldSize, [(3/4) (1/2)]);
-[predatorPos, predatorVel] = RandomSpawn(nPredatorAgents, fieldSize, [1/4 1/2]);
+[preyPos, preyVel] = RandomSpawn(nPreyAgents, fieldSize, [1/2 1/2]);
+[predatorPos, predatorVel] = RandomSpawn(nPredatorAgents, fieldSize, [0 1/2]);
 
 if film
     % initialize videowriter
@@ -49,10 +49,10 @@ while (timeElapsed < maxTime) && ~captured
         predatorPolArr(stepCount) = CalcPolarization(predatorVel);
         predatorAngArr(stepCount) = CalcAngularMomentum(predatorDispVec, predatorDispNorm, predatorVel, predatorStepLength/deltaT);
         
-        PlotAgentStates(ax1, preyObj, preyPos, predatorObj, predatorPos);
+        PlotAgentStates(preyObj, preyPos, predatorObj, predatorPos);
         PlotFlockStats(ax2, preyPolObj, preyAngObj, flockTArr(1:stepCount), preyPolArr(1:stepCount), preyAngArr(1:stepCount), timeElapsed);
         PlotFlockStats(ax3, predatorPolObj, predatorAngObj, flockTArr(1:stepCount), predatorPolArr(1:stepCount), predatorAngArr(1:stepCount), timeElapsed);
-        drawnow;
+        drawnow nocallbacks
         
         % write to video
     end
@@ -60,4 +60,5 @@ while (timeElapsed < maxTime) && ~captured
     [preyPos, preyVel] = UpdateAgentState(preyPos, preyVel, preyInputVectors, preyT1, preyW12, preyT2, preyW23, maxPreyTurningAngle, preyStepLength, deltaT, fieldSize);
     [predatorPos, predatorVel] = UpdateAgentState(predatorPos, predatorVel, predatorInputVectors, predatorT1, predatorW12, predatorT2, predatorW23, maxPredatorTurningAngle, predatorStepLength, deltaT, fieldSize);
     captured = CheckCaptured(preyPos, predatorPos, captureDistance);
+    
 end

@@ -5,6 +5,7 @@
 
 %------------------------------------------------------------------------------
 
+tupleSize = 5;
 nPredatorNeighbors = nPreyNeighbors * 2;
 nPreyNeighbors = min(nPreyNeighbors, nPreyAgents-1);
 nPredatorNeighbors = min(nPredatorNeighbors, nPreyAgents);
@@ -16,14 +17,13 @@ predatorStepLength = predatorSpeed * deltaT;
 fieldArea = 10 * (pi*(nPreyAgents*preyTurningRadius^2 + nPredatorAgents*predatorTurningRadius^2));
 fieldSize = sqrt(fieldArea);
 
-
 % neural network parameters
 goldenratio = 0.5*(sqrt(5)-1);
-nPreyNNInputs = 5*(nPreyNeighbors + nPredatorAgents);
+nPreyNNInputs = tupleSize*(nPreyNeighbors + nPredatorAgents);
 nPreyNNOutputs = 1;
 nPreyNNHidden = ceil(goldenratio*log(nPreyNNInputs)*nPreyNNInputs^goldenratio);
 
-nPredatorNNInputs = 5*(nPredatorNeighbors + nPredatorAgents - 1);
+nPredatorNNInputs = tupleSize*(nPredatorNeighbors + nPredatorAgents - 1);
 nPredatorNNOutputs = 1;
 nPredatorNNHidden = ceil(goldenratio*log(nPredatorNNInputs)*nPredatorNNInputs^goldenratio);
 
@@ -31,6 +31,20 @@ preyChromosomeLength = nPreyNNOutputs + nPreyNNOutputs*nPreyNNHidden + nPreyNNHi
 preyMutationProbability = mutationFrequency/preyChromosomeLength;
 predatorChromosomeLength = nPredatorNNOutputs + nPredatorNNOutputs*nPredatorNNHidden + nPredatorNNHidden + nPredatorNNHidden*nPredatorNNInputs;
 predatorMutationProbability = mutationFrequency/predatorChromosomeLength;
+
+fprintf(['Begin simulation...\n\n',...
+    'Number of prey agents: %d\n',...
+    'Number of predator agents: %d\n',...
+    'Predator/prey speeds ratio: %.1f\n',...
+    'Number of competitions: %d\n',...
+    'Genetic algorithm population size: %d\n',...
+    'Prey NN: %d-%d-%d\n',...
+    'Predator NN: %d-%d-%d\n',...
+    '\n'], ...
+    nPreyAgents, nPredatorAgents,...
+    predatorSpeed, nCompetitions, populationSize,...
+    nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs,...
+    nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs);
 
 preyPopulation = InitializePopulation(populationSize, preyChromosomeLength, mutationDistance);
 predatorPopulation = InitializePopulation(populationSize, predatorChromosomeLength, mutationDistance);
