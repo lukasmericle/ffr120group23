@@ -59,7 +59,7 @@ fitnessMatrix = zeros(populationSize);
                               nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs, ...
                               deltaT, maxTime, fieldSize, captureDistance, nCompetitions, gen);
 
-while true
+for i = 1:10000
     
     gen = gen + 1;
     

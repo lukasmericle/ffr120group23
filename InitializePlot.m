@@ -1,6 +1,6 @@
 function [ax1, ax2, ax3, preyObj, predatorObj, preyPolObj, preyAngObj, ...
-          predatorPolObj, predatorAngObj] = InitializePlot(preyPos, ...
-                                        predatorPos, fieldSize, thisGeneration)
+          predatorPolObj, predatorAngObj,h,frames] = InitializePlot(preyPos, ...
+                                        predatorPos, fieldSize, thisGeneration,frames)
 
 clf;
 h = figure(1);
@@ -43,3 +43,5 @@ legend({'Polarization', 'Angular Momentum'});
 legend('boxoff');
 legend('Orientation', 'horizontal');
 legend('Location', 'southoutside');
+ 
+frames(1)=getframe(h);
