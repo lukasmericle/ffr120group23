@@ -1,4 +1,5 @@
 TunableParameters.m
 *.m~
 *.asv
-./vids/*
+Simulation\ Data/*
+Simulation\ Data\\*

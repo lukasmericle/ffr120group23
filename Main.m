@@ -6,9 +6,11 @@
 %------------------------------------------------------------------------------
 
 tupleSize = 5;
-nPredatorNeighbors = nPreyNeighbors * 2;
-nPreyNeighbors = min(nPreyNeighbors, nPreyAgents-1);
-nPredatorNeighbors = min(nPredatorNeighbors, nPreyAgents);
+nPreyPreyNeighbors = min(nPreyNeighbors, nPreyAgents-1);
+nPreyPredatorNeighbors = ceil(nPreyNeighbors/2);
+nPredatorPreyNeighbors = nPreyNeighbors*2;
+nPredatorPredatorNeighbors = min(nPreyNeighbors, nPredatorAgents-1);
+nAgentNeighbors = [nPreyPreyNeighbors, nPreyPredatorNeighbors, nPredatorPreyNeighbors, nPredatorPredatorNeighbors];
 predatorTurningRadius = preyTurningRadius * predatorSpeed;
 maxPreyTurningAngle = acos(1 - deltaT^2 / (2*preyTurningRadius^2));
 maxPredatorTurningAngle = acos(1 - predatorSpeed * deltaT^2 / (2*predatorTurningRadius^2));
@@ -19,11 +21,11 @@ fieldSize = sqrt(fieldArea);
 
 % neural network parameters
 goldenratio = 0.5*(sqrt(5)-1);
-nPreyNNInputs = tupleSize*(nPreyNeighbors + nPredatorAgents);
+nPreyNNInputs = tupleSize*(nPreyPreyNeighbors + nPreyPredatorNeighbors);
 nPreyNNOutputs = 1;
 nPreyNNHidden = ceil(goldenratio*log(nPreyNNInputs)*nPreyNNInputs^goldenratio);
 
-nPredatorNNInputs = tupleSize*(nPredatorNeighbors + nPredatorAgents - 1);
+nPredatorNNInputs = tupleSize*(nPredatorPreyNeighbors + nPredatorPredatorNeighbors);
 nPredatorNNOutputs = 1;
 nPredatorNNHidden = ceil(goldenratio*log(nPredatorNNInputs)*nPredatorNNInputs^goldenratio);
 
@@ -53,11 +55,11 @@ gen = 0;
 
 fitnessMatrix = zeros(populationSize);
 [fitnessMatrix, preyPopulation, preyFitnesses, predatorPopulation, predatorFitnesses] = UpdateFitnesses(fitnessMatrix, ...
-                              preyPopulation, nPreyAgents, nPreyNeighbors, maxPreyTurningAngle, preyStepLength, ...
+                              preyPopulation, nPreyAgents, maxPreyTurningAngle, preyStepLength, ...
                               nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs, ...
-                              predatorPopulation, nPredatorAgents, nPredatorNeighbors, maxPredatorTurningAngle, predatorStepLength, ...
+                              predatorPopulation, nPredatorAgents, maxPredatorTurningAngle, predatorStepLength, ...
                               nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs, ...
-                              deltaT, maxTime, fieldSize, captureDistance, nCompetitions, gen);
+                              nAgentNeighbors, deltaT, maxTime, fieldSize, captureDistance, nCompetitions, gen);
 
 for i = 1:10000
     
@@ -69,10 +71,9 @@ for i = 1:10000
     fitnessMatrix(populationSize-1:populationSize, :) = 0;
     fitnessMatrix(:, populationSize-1:populationSize) = 0;
     [fitnessMatrix, preyPopulation, preyFitnesses, predatorPopulation, predatorFitnesses] = UpdateFitnesses(fitnessMatrix, ...
-                              preyPopulation, nPreyAgents, nPreyNeighbors, maxPreyTurningAngle, preyStepLength, ...
+                              preyPopulation, nPreyAgents, maxPreyTurningAngle, preyStepLength, ...
                               nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs, ...
-                              predatorPopulation, nPredatorAgents, nPredatorNeighbors, maxPredatorTurningAngle, predatorStepLength, ...
+                              predatorPopulation, nPredatorAgents, maxPredatorTurningAngle, predatorStepLength, ...
                               nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs, ...
-                              deltaT, maxTime, fieldSize, captureDistance, nCompetitions, gen);
-
+                              nAgentNeighbors, deltaT, maxTime, fieldSize, captureDistance, nCompetitions, gen);
 end
