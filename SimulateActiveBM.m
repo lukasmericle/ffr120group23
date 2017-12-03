@@ -8,10 +8,13 @@ activeStats.dx = zeros(stats.nAgents, simStats.stepCount);
 activeStats.dy = zeros(stats.nAgents, simStats.stepCount);
 activeStats.dv = zeros(stats.nAgents, simStats.stepCount);
 
+DR = mean(stats.DReff);
+DT = mean(stats.DTeff);
+
 for i = 2:simStats.stepCount
-    activeStats.dx(:,i) = stats.speed*cos(activeStats.v(:,i-1))*simStats.deltaT + sqrt(2*stats.DTeff(i)*simStats.deltaT)*randn(stats.nAgents,1);
-    activeStats.dy(:,i) = stats.speed*sin(activeStats.v(:,i-1))*simStats.deltaT + sqrt(2*stats.DTeff(i)*simStats.deltaT)*randn(stats.nAgents,1);
-    activeStats.dv(:,i) = stats.Omega*simStats.deltaT + sqrt(2*stats.DReff(i)*simStats.deltaT)*randn(stats.nAgents,1);
+    activeStats.dx(:,i) = stats.speed*cos(activeStats.v(:,i-1))*simStats.deltaT + sqrt(2*DT*simStats.deltaT)*randn(stats.nAgents,1);
+    activeStats.dy(:,i) = stats.speed*sin(activeStats.v(:,i-1))*simStats.deltaT + sqrt(2*DT*simStats.deltaT)*randn(stats.nAgents,1);
+    activeStats.dv(:,i) = stats.Omega*simStats.deltaT + sqrt(2*DR*simStats.deltaT)*randn(stats.nAgents,1);
     activeStats.v(:,i) = mod(activeStats.v(:,i-1) + activeStats.dv(:,i), 2*pi);
 end
 

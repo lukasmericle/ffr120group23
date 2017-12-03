@@ -10,9 +10,11 @@ passiveStats.dx = zeros(stats.nAgents, simStats.stepCount);
 passiveStats.dy = zeros(stats.nAgents, simStats.stepCount);
 passiveStats.dv = zeros(stats.nAgents, simStats.stepCount);
 
+DT = mean(stats.DTeff);
+
 for i = 2:simStats.stepCount
-    passiveStats.dx(:,i) = sqrt(2*stats.DTeff(i)*simStats.deltaT)*randn(stats.nAgents,1);
-    passiveStats.dy(:,i) = sqrt(2*stats.DTeff(i)*simStats.deltaT)*randn(stats.nAgents,1);
+    passiveStats.dx(:,i) = sqrt(2*DT*simStats.deltaT)*randn(stats.nAgents,1);
+    passiveStats.dy(:,i) = sqrt(2*DT*simStats.deltaT)*randn(stats.nAgents,1);
     passiveStats.v(:,i) = atan2(passiveStats.dy(:,i), passiveStats.dx(:,i));
     passiveStats.dv(:,i) = mod(passiveStats.v(:,i) - passiveStats.v(:,i-1), 2*pi);
     passiveStats.x(:,i) = passiveStats.x(:,i-1) + passiveStats.dx(:,i);
