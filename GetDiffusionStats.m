@@ -17,7 +17,12 @@ end
 stats.cumcentroid(1,:) = mean(stats.cumdx);
 stats.cumcentroid(2,:) = mean(stats.cumdy);
 
-stats.MSD = mean(stats.cumdx.^2+stats.cumdy.^2);
+squaredDisplacement = stats.cumdx.^2+stats.cumdy.^2;
+absDisplacement = sqrt(squaredDisplacement);
+stats.firstmoment = mean(absDisplacement);
+stats.secondmoment = mean(squaredDisplacement);
+stats.thirdmoment = mean(absDisplacement.^3);
+stats.fourthmoment = mean(absDisplacement.^4);
 
 stats.Omega = atan2(mean2(sin(stats.dv)), mean2(cos(stats.dv)))/simStats.deltaT;
 stats.DReff = simStats.deltaT/2*(-2*log(abs(mean(exp(1i*(stats.dv/simStats.deltaT - stats.Omega)))))); % https://en.wikipedia.org/wiki/Directional_statistics#Measures_of_location_and_spread

@@ -62,16 +62,16 @@ elseif isunix
     filePath = [pwd, '/', grandparentFolderName, '/', parentFolderName, '/', folderName, '/'];
 end
 mkdir(filePath);
-preyPassiveStats = SimulatePassiveBM(simStats, preyStats);
-predatorPassiveStats = SimulatePassiveBM(simStats, predatorStats);
+%preyPassiveStats = SimulatePassiveBM(simStats, preyStats);
+%predatorPassiveStats = SimulatePassiveBM(simStats, predatorStats);
 preyActiveStats = SimulateActiveBM(simStats, preyStats);
 predatorActiveStats = SimulateActiveBM(simStats, predatorStats);
 [preyBoidStats, predatorBoidStats] = SimulateBoids(simStats, preyStats, predatorStats, fieldSize);
 
-tic;
-PlotSimulation(filePath, simStats, preyStats, predatorStats, preyBoidStats, predatorBoidStats, fieldSize);
-PlotDiffusion(filePath, 'Prey', simStats, preyPassiveStats, preyActiveStats, preyBoidStats, preyStats);
-PlotDiffusion(filePath, 'Predator', simStats, predatorPassiveStats, predatorActiveStats, predatorBoidStats, predatorStats);
-PlotMSD(filePath, 'Prey', simStats, preyPassiveStats, preyActiveStats, preyBoidStats, preyStats);
-PlotMSD(filePath, 'Predator', simStats, predatorPassiveStats, predatorActiveStats, predatorBoidStats, predatorStats);
-toc
+if (simStats.generation < 1000 && mod(simStats.generation, 100)==0) || (mod(simStats.generation, 1000)==0)
+    %PlotSimulation(filePath, simStats, preyStats, predatorStats, preyBoidStats, predatorBoidStats, fieldSize);
+    PlotMSD(filePath, 'Prey', simStats, preyActiveStats, preyBoidStats, preyStats);
+    PlotMSD(filePath, 'Predator', simStats, predatorActiveStats, predatorBoidStats, predatorStats);
+    %PlotDiffusion(filePath, 'Prey', simStats, preyPassiveStats, preyActiveStats, preyBoidStats, preyStats);
+    %PlotDiffusion(filePath, 'Predator', simStats, predatorPassiveStats, predatorActiveStats, predatorBoidStats, predatorStats);
+end
