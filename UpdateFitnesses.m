@@ -42,7 +42,7 @@ predatorFitnesses = -mean(fitnessMatrix, 1);
 [fitnessMatrix, preyPopulation, preyFitnesses, predatorPopulation, predatorFitnesses] = SortPopulation(fitnessMatrix, preyPopulation, preyFitnesses, predatorPopulation, predatorFitnesses);
 
 % this run competes the best prey v best predator and records the competition
-[timeElapsed, simStats, preyStats, predatorStats]= Compete(preyPopulation(1,:), ...
+[~, simStats, preyStats, predatorStats]= Compete(preyPopulation(1,:), ...
                       nPreyAgents, maxPreyTurningAngle, preyStepLength, ...
                       nPreyNNInputs, nPreyNNHidden, nPreyNNOutputs, ...
                       predatorPopulation(1,:), ...
@@ -50,7 +50,7 @@ predatorFitnesses = -mean(fitnessMatrix, 1);
                       nPredatorNNInputs, nPredatorNNHidden, nPredatorNNOutputs, ...
                       nAgentNeighbors, deltaT, maxTime, fieldSize, captureDistance, gen, true);
 
-grandparentFolderName = 'Simulation Data';
+grandparentFolderName = 'Simulation Data 2';
 parentFolderName = sprintf('%04d-%03d-%02d-%.2f--%.2f-%d', ...
                     preyStats.nAgents, predatorStats.nAgents, ...
                     preyStats.nFriendlyNeighbors, predatorStats.speed, ...
@@ -62,16 +62,21 @@ elseif isunix
     filePath = [pwd, '/', grandparentFolderName, '/', parentFolderName, '/', folderName, '/'];
 end
 mkdir(filePath);
-preyPassiveStats = SimulatePassiveBM(simStats, preyStats);
-predatorPassiveStats = SimulatePassiveBM(simStats, predatorStats);
-preyActiveStats = SimulateActiveBM(simStats, preyStats);
-predatorActiveStats = SimulateActiveBM(simStats, predatorStats);
-[preyBoidStats, predatorBoidStats] = SimulateBoids(simStats, preyStats, predatorStats, fieldSize);
 
-tic;
-PlotSimulation(filePath, simStats, preyStats, predatorStats, preyBoidStats, predatorBoidStats, fieldSize);
-PlotDiffusion(filePath, 'Prey', simStats, preyPassiveStats, preyActiveStats, preyBoidStats, preyStats);
-PlotDiffusion(filePath, 'Predator', simStats, predatorPassiveStats, predatorActiveStats, predatorBoidStats, predatorStats);
-PlotMSD(filePath, 'Prey', simStats, preyPassiveStats, preyActiveStats, preyBoidStats, preyStats);
-PlotMSD(filePath, 'Predator', simStats, predatorPassiveStats, predatorActiveStats, predatorBoidStats, predatorStats);
-toc
+fileName = sprintf('DataGeneration %d',simStats.generation)
+save(strcat(filePath,fileName),'simStats', 'preyStats', 'predatorStats')
+
+
+% preyPassiveStats = SimulatePassiveBM(simStats, preyStats);
+% predatorPassiveStats = SimulatePassiveBM(simStats, predatorStats);
+% preyActiveStats = SimulateActiveBM(simStats, preyStats);
+% predatorActiveStats = SimulateActiveBM(simStats, predatorStats);
+% [preyBoidStats, predatorBoidStats] = SimulateBoids(simStats, preyStats, predatorStats, fieldSize);
+% 
+% tic;
+% PlotSimulation(filePath, simStats, preyStats, predatorStats, preyBoidStats, predatorBoidStats, fieldSize);
+% PlotDiffusion(filePath, 'Prey', simStats, preyPassiveStats, preyActiveStats, preyBoidStats, preyStats);
+% PlotDiffusion(filePath, 'Predator', simStats, predatorPassiveStats, predatorActiveStats, predatorBoidStats, predatorStats);
+% PlotMSD(filePath, 'Prey', simStats, preyPassiveStats, preyActiveStats, preyBoidStats, preyStats);
+% PlotMSD(filePath, 'Predator', simStats, predatorPassiveStats, predatorActiveStats, predatorBoidStats, predatorStats);
+% toc
