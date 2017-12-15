@@ -1,8 +1,8 @@
 function [preyBoidStats, predatorBoidStats] = SimulateBoids(simStats, preyStats, predatorStats, fieldSize)
 c1 = 1;
-c2 = 1/10;
-c3 = 1/3;
-c4 = 10;
+c2 = 1/5;
+c3 = 1/2;
+c4 = 5;
 preyBoidStats.nAgents = preyStats.nAgents;
 preyBoidStats.nFriendlyNeighbors = preyStats.nFriendlyNeighbors;
 preyBoidStats.nEnemyNeighbors = preyStats.nEnemyNeighbors;

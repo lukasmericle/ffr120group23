@@ -1,12 +1,15 @@
 function PlotSimulation(filePath, simStats, preyStats, predatorStats, preyBoidStats, predatorBoidStats, fieldSize)
+fprintf('Plotting Simulation\n');
 
-width = 1000;
-height = 800;
+width = 600;
+height = 500;
+padleft = 40;
+padding = 20;
 
-splith = 500;
-splitv1 = 300;
-splitv2 = 150;
-padding = 25;
+splith = (width-padleft-padding)/2+padleft;
+splitv1 = height-splith;
+splitv2 = splitv1/2;
+
 
 fileName = sprintf('SimulationVideoGeneration%d', simStats.generation);
 
@@ -19,7 +22,8 @@ h = figure('visible', 'off');
 clf;
 set(h, 'Color', 'w', 'Units', 'Pixels', 'Position', [0, 0, width, height]);
 
-ax1 = axes('Units', 'Pixels', 'Position', [padding, splitv1+padding, splith-padding-padding, height-splitv1-padding-padding]);
+
+ax1 = axes('Units', 'Pixels', 'Position', [padleft, splitv1+padding, splith-padding-padleft, height-splitv1-padding-padding]);
 box on; hold on;
 xlim manual; ylim manual;
 xlim([0 fieldSize]);
@@ -27,14 +31,10 @@ ylim([0 fieldSize]);
 title(sprintf('Intelligent Model, Generation %d', simStats.generation));
 preyIntelPos = plot(preyStats.x(:, 1), preyStats.y(:, 1), 'g.');
 predatorIntelPos = plot(predatorStats.x(:, 1), predatorStats.y(:, 1), 'r*');
-%legend({'Prey', 'Predator'});
-%legend('boxoff');
-%legend('Orientation', 'horizontal');
-%legend('Location', 'southoutside');
 set(ax1, 'XTick', [], 'YTick', []);
 
 
-ax2 = axes('Units', 'Pixels', 'Position', [padding, splitv2+padding, splith-padding-padding, splitv1-splitv2-padding-padding]);
+ax2 = axes('Units', 'Pixels', 'Position', [padleft, splitv2+padding, splith-padding-padleft, splitv1-splitv2-padding-padding]);
 box on; hold on;
 xlim manual; ylim manual;
 xlim([0 simStats.timeElapsed]);
@@ -45,7 +45,7 @@ plot(simStats.t, preyStats.ang/max(preyStats.ang), 'b', 'LineWidth', 2);
 preyIntelTrack = plot([0 0], [0 1]);
 
 
-ax3 = axes('Units', 'Pixels', 'Position', [padding, padding, splith-padding-padding, splitv2-padding-padding]);
+ax3 = axes('Units', 'Pixels', 'Position', [padleft, padding, splith-padding-padleft, splitv2-padding-padding]);
 box on; hold on;
 xlim manual; ylim manual;
 xlim([0 simStats.timeElapsed]);
@@ -55,10 +55,6 @@ xlabel('$t$', 'Interpreter', 'Latex');
 plot(simStats.t, predatorStats.pol, 'm', 'LineWidth', 2);
 plot(simStats.t, predatorStats.ang/max(predatorStats.ang), 'b', 'LineWidth', 2);
 predatorIntelTrack = plot([0 0], [0 1]);
-%legend({'Polarization', 'Angular Momentum'});
-%legend('boxoff');
-%legend('Orientation', 'horizontal');
-%legend('Location', 'southoutside');
 
 
 ax4 = axes('Units', 'Pixels', 'Position', [splith+padding, splitv1+padding, width-splith-padding-padding, height-splitv1-padding-padding]);
@@ -69,10 +65,6 @@ ylim([0 fieldSize]);
 title('Boids Model');
 preyBoidPos = plot(preyBoidStats.x(:, 1), preyBoidStats.y(:, 1), 'g.');
 predatorBoidPos = plot(predatorBoidStats.x(:, 1), predatorBoidStats.y(:, 1), 'r*');
-%legend({'Prey', 'Predator'});
-%legend('boxoff');
-%legend('Orientation', 'horizontal');
-%legend('Location', 'southoutside');
 set(ax4, 'XTick', [], 'YTick', []);
 
 
@@ -96,10 +88,6 @@ xlabel('$t$', 'Interpreter', 'Latex');
 plot(simStats.t, predatorBoidStats.pol, 'm', 'LineWidth', 2);
 plot(simStats.t, predatorBoidStats.ang/max(predatorBoidStats.ang), 'b', 'LineWidth', 2);
 predatorBoidTrack = plot([0 0], [0 1]);
-%legend({'Polarization', 'Angular Momentum'});
-%legend('boxoff');
-%legend('Orientation', 'horizontal');
-%legend('Location', 'southoutside');
 
 H = getframe(h);
 writeVideo(v, H);

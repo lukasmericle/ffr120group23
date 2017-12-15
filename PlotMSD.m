@@ -1,25 +1,26 @@
-function PlotMSD(filePath, flock, simStats, passiveStats, activeStats, boidsStats, intelStats)
+function PlotMSD(filePath, flock, simStats, activeStats, boidsStats, intelStats)
 
-fileName = [flock, sprintf('MSDGeneration%d.png', simStats.generation)];
+activeNormTime = activeStats.speed.*simStats.t; % normalize quantity to make the resulting measurement dimensionless
+intelNormTime = intelStats.speed.*simStats.t;
+boidsNormTime = boidsStats.speed.*simStats.t;
 
 h = figure('visible', 'off');
 clf;
-set(h,'Color','w','Units','Pixels','Position',[0 0 500 500]);
+set(h, 'Color', 'w', 'Units', 'Pixels', 'Position', [0,0,600,500], 'visible', 'off');
+fprintf(['Plotting ', flock, ' MSD\n']);
 
-ax = axes('GridAlpha', 0.5, 'MinorGridAlpha', 0);
+ax = axes('GridAlpha', 0.33, 'MinorGridAlpha', 0, 'GridLineStyle', '--');
 grid on; box on; hold on;
-title(sprintf('Mean-Square Displacement, Generation %d', simStats.generation));
+title([flock, sprintf(', Generation %d', simStats.generation)], 'Interpreter', 'Latex', 'FontSize', 16);
 xlim([simStats.t(2) simStats.t(end)]);
-xlabel('$t$', 'Interpreter', 'Latex');
-ylabel('$MSD$', 'Interpreter', 'Latex');
-ax.XScale = 'log';
+xlabel('$t$', 'Interpreter', 'Latex', 'FontSize', 14);
+ylabel('$MSD/(vt)^2$', 'Interpreter', 'Latex', 'FontSize', 14);
 ax.YScale = 'log';
-plot(simStats.t, passiveStats.MSD, 'LineStyle','--');
-plot(simStats.t, activeStats.MSD, 'LineWidth', 2);
-plot(simStats.t, boidsStats.MSD, 'LineWidth', 2);
-plot(simStats.t, intelStats.MSD, 'LineWidth', 2);
-legend({'Passive Brownian Motion', 'Active Brownian Motion', 'Boids Model', 'Intelligent Model'});
-legend('boxoff');
-legend('Location', 'southoutside');
+plot(simStats.t, activeStats.secondmoment./(activeNormTime.^2), 'LineWidth', 3);
+plot(simStats.t, intelStats.secondmoment./(intelNormTime.^2), 'LineWidth', 3);
+plot(simStats.t, boidsStats.secondmoment./(boidsNormTime.^2), 'LineWidth', 3);
 
-saveas(h, [filePath, fileName], 'png');
+legend({'Active Brownian Motion', 'Intelligent Model', 'Boids Model'});
+legend('Location', 'northeast');
+
+saveas(h, [filePath, flock, sprintf('NormMSDGeneration%d.png', simStats.generation)]);

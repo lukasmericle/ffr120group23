@@ -1,4 +1,5 @@
 function PlotDiffusion(filePath, flock, simStats, passiveStats, activeStats, boidStats, intelStats)
+fprintf(['Plotting ', flock, ' Diffusion Visualization\n']);
 
 fileName = [flock, sprintf('DiffusionVideoGeneration%d', simStats.generation)];
 v = VideoWriter([filePath, fileName]);
