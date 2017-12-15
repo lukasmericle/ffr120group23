@@ -29,5 +29,5 @@ stats.DReff = simStats.deltaT/2*(-2*log(abs(mean(exp(1i*(stats.dv/simStats.delta
 
 stats.DTeff = zeros(1, simStats.stepCount);
 stats.DTeff(1) = 1;
-stats.DTeff(2:end) = mean([simStats.deltaT/2*var(stats.dx(:,2:end)/simStats.deltaT - stats.speed*cos(stats.v(:,1:end-1))) ...
-    simStats.deltaT/2*var(stats.dy(:,2:end)/simStats.deltaT - stats.speed*sin(stats.v(:,1:end-1)))]);
+stats.DTeff(2:end) = simStats.deltaT/4*(var(stats.dx(:,2:end)/simStats.deltaT - stats.speed*cos(stats.v(:,1:end-1))) + ...
+    var(stats.dy(:,2:end)/simStats.deltaT - stats.speed*sin(stats.v(:,1:end-1))));
